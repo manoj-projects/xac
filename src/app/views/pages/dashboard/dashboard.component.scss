@@ -1,0 +1,261 @@
+.card {
+    border: none;
+    // box-shadow: none;
+}
+
+.card td {
+    text-align: center;
+}
+
+.allDashboard p {
+    font-weight: bold;
+    font-size: large;
+}
+
+.allDashboard #studentButton {
+    top: 225px;
+    left: 448px;
+    width: 45px;
+    height: 120px;
+    border: none;
+}
+
+.allDashboard #staffButton {
+    top: 225px;
+    left: 448px;
+    width: 45px;
+    height: 120px;
+    border: none;
+}
+
+.allDashboard #inboxButton {
+    top: 225px;
+    left: 448px;
+    width: 45px;
+    height: 120px;
+    border: none;
+}
+
+.allDashboard hr {
+    margin: 0rem !important;
+}
+
+.allDashboard img {
+    width: 22px;
+}
+
+.dashCard {
+    color: var(--white-text-color) !important;
+    background-color: var(--counselling-primary);
+    font-weight: bold;
+
+}
+
+.stdRow {
+    color: var(--blue-dashboard);
+}
+
+.staffRow {
+    color: var(--green-dashboard);
+}
+
+.inboxRow {
+    color: var(--pink-dashboard);
+}
+
+.studentTableClass {
+    background-color: var(--white-text-color);
+}
+
+.studentTableClass h6 {
+    color: var(--blue-dashboard);
+}
+
+.teacherTableClass {
+    background-color: var(--white-text-color);
+}
+
+
+.teacherTableClass h6 {
+    color: var(--green-dashboard);
+}
+
+.inboxTableClass {
+    background-color: var(--white-text-color);
+}
+
+.inboxTableClass th {
+    background-color: var(--pink-dashboard);
+}
+
+.inboxTableClass tr:nth-child(even) {
+    background-color: var(--miniPink-dashboard);
+}
+
+.inboxTableClass .table-header th {
+    background-color: var(--pink-dashboard);
+    color: var(--white-text-color);
+}
+
+.inboxTableClass h6 {
+    color: var(--pink-dashboard);
+}
+
+.inboxMsgCard h6 {
+    color: var(--pink-dashboard);
+}
+
+.bold {
+    text-align: center;
+    color: black;
+}
+.cardTitle{
+    font-weight: bold !important;
+    color: var(--counselling-primary);
+}
+
+#teacherLine {
+    border-left: 1px solid black;
+    left: 50%;
+    position: absolute;
+}
+
+.vertical-line {
+    border-left: 2px solid #808080;
+    height: 35%;
+    margin-left: 2%;
+    margin-right: 4%;
+    width: 2px;
+}
+
+.mailCard:hover {
+    background-color: var(--miniPink-dashboard) !important;
+}
+
+.mailCard a {
+    text-decoration: none !important;
+}
+
+.mailCard {
+    border-radius: 1.25rem !important;
+    background-color: #FBFBFB !important;
+}
+
+.progressBar b {
+    color: var(--counselling-primary);
+}
+
+.progressBar {
+    background-color: var(--white-text-color);
+    height: 65px;
+}
+
+.progress {
+    height: 1.5rem;
+}
+
+.progressBar .success span {
+    color: green;
+    font-weight: bold;
+}
+
+.progressBar .fail span {
+    color: rgb(173, 2, 2);
+    font-weight: bold;
+}
+
+.progress .success {
+    background-color: rgb(215, 245, 215);
+}
+
+.progress .fail {
+    background-color: rgb(253, 209, 209);
+}
+
+.brown {
+    background-color: #AAAAAA;
+}
+
+.blue {
+    background-color: var(--blue-dashboard);
+}
+
+.green {
+    background-color: var(--green-dashboard);
+}
+
+.pink {
+    background-color: var(--pink-dashboard);
+}
+
+.font-size-large {
+    font-size: large;
+}
+
+.inboxIcons img {
+    width: 20px;
+}
+
+.table th {
+    background: var(--blue-dashboard);
+    color: var(--white-text-color);
+}
+
+.dashboardCardClass h6 {
+    color: var(--counselling-primary);
+}
+
+ul {
+    padding-left: 0rem !important;
+}
+
+.date-style {
+    font-weight: lighter;
+    color: black;
+}
+
+.dashboardCardClass .headLine {
+    font-weight: bold;
+}
+
+.p-button-rounded {
+    color: var(--pink-dashboard);
+    font: -webkit-control;
+    box-shadow: none;
+}
+
+.p-button.p-button-outlined[_ngcontent-koj-c177]:enabled:active {
+    color: var(--pink-dashboard) !important;
+    background-color: var(--miniPink-dashboard);
+    box-shadow: 0 0 0 0 rgb(0 0 0 / 0%) !important;
+}
+
+.p-button.p-button-outlined:enabled:hover {
+    color: var(--pink-dashboard) !important;
+    background-color: var(--miniPink-dashboard);
+}
+.circle{
+    width: 45px;
+    height: 45px;
+    // background-color:#80D3F8;
+    border-radius: 50%;
+    color: white;
+    text-align: center;
+    font-size: x-large;
+}
+
+.first{
+    background-color: rgb(31, 217, 241);
+}
+.second{
+    background-color: rgb(116, 182, 62);
+}
+.third{
+    background-color: rgb(181, 124, 235);
+}
+.fourth{
+    background-color: rgb(221, 127, 19);
+}
+.fifth{
+    background-color: rgb(221, 218, 33);
+}

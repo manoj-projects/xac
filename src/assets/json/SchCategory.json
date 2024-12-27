@@ -1,0 +1,20 @@
+
+{"SchoolCategory":
+[
+    { "value": "1", "label": "Primary Only (I-V)" },
+    { "value": "2", "label": "Middle School (I-VIII)" },
+    { "value": "3", "label": "Hr.Sec School (I-XII)" },
+    { "value": "4", "label": "Middle School (VI-VIII)" },
+    { "value": "5", "label": "Hr.Sec School (VI-XII)" },
+    { "value": "6", "label": "High Schools (I-X)" },
+    { "value": "7", "label": "High Schools (VI-X)" },
+    { "value": "8", "label": "High Schools (IX-X)" },
+    { "value": "9", "label": "Hr.Sec School (IX-XII)" },
+    { "value": "10", "label": "Hr.Sec Schools (XI-XII)" },
+    { "value": "11", "label": "Nursery & Primary (Pre-KG-V)" },
+    { "value": "12", "label": "Nursery Only (PrkG-UKG)" },
+    { "value": "13", "label": "Special Schools" },
+    { "value": "14", "label": "Others" },
+    { "value": "15", "label": "Play School" }
+]
+}

@@ -1,0 +1,768 @@
+<div class="row">
+  <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-3 mt-2 cursor-pointer" (click)="showEvents()">
+            <div class="card-body dashCard text-center">
+              <span>{{this.monthNme}}</span><br>
+              <span class="font-size-large">{{this.date}}</span>
+            </div>
+          </div>
+          <div class="col-md-9 mt-2">
+            <span class="cardTitle"> Today's Special</span><br><span class="bold"> {{todaySpl}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-12 col-md-6 col-lg-6 col-xl-3 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body cursor-pointer" (click)="showBirthdayModal()">
+        <div class="row">
+          <div class="col-10">
+            <span class="cardTitle">Today's Birthday</span><br><span class="bold">Teachers -
+              <b>{{teacherBirthCount}}</b></span>
+            <span class="bold vertical-line"></span>
+            <span class="bold">Students - <b>{{stuBirthCount}}</b></span>
+          </div>
+          <div class="col-2 mt-2">
+            <i class="pi pi-info-circle"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-12 col-md-12 col-lg-12 col-xl-5 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-12 ">
+            <span class="cardTitle">Today's Quotes</span><br>
+            <span class="bold">{{todayQuotes}}</span>
+          </div>
+          <!-- <div class="col-2">
+                <img src="../../../../assets/icons/arrow-right.svg" />
+              </div> -->
+        </div>
+        <div class="row">
+          <div class="col-12 text-right">
+            <span class="bold">- {{todayQuotesAuthor}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- <div id="piChart" style="width: auto; height:400px;"></div> -->
+
+<!-- Progressbar -->
+<!-- <div class="row">
+  <div class="col-12 col-xl-12 grid-margin stretch-card">
+    <div class="card overflow-hidden">
+      <div class="card-body">
+        <div class="row">
+          <div class="progressBar col-md-6 col-sm-12">
+            <span><b>Annual Finance Details Updation</b></span>
+            <div class="progress">
+              <div pTooltip="Reserved : 80%" tooltipPosition="top" class="progress-bar success" role="progressbar"
+                style="width: 80%;" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"><span>80%</span></div>
+              <div pTooltip="UnReserved : 20%" tooltipPosition="top" class="progress-bar fail" role="progressbar"
+                style="width: 20%;" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"><span>20%</span></div>
+            </div>
+          </div>
+          <div class="progressBar col-md-6 col-sm-12">
+            <span><b>SMC Member's Details Updation</b></span>
+            <div class="progress">
+              <div pTooltip="Marked : 65%" tooltipPosition="top" class="progress-bar success" role="progressbar"
+                style="width: 65%;" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"><span>65%</span></div>
+              <div pTooltip="Unmarked : 35%" tooltipPosition="top" class="progress-bar fail" role="progressbar"
+                style="width: 35%;" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100"><span>35%</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<!-- Dashboard Total Counts -->
+<div class="row">
+  <div class="col-lg-5 col-xl-4 grid-margin grid-margin-xl-0 stretch-card">
+    <div class="card allDashboard">
+      <div class="card-body">
+
+        <div class="row my-2">
+          <div class="col-10">
+            <div class="row stdRow">
+              <div class="col-9">
+                <p>TOTAL STUDENTS</p>
+              </div>
+              <div class="col-3">
+                <p class="text-end">{{overAllStudents}}</p>
+              </div>
+              <div class="col-8">
+                <div class="row">
+                  <div class="col-2">
+                    <img src="../../../../assets/icons/Group 34938.svg" />
+                  </div>
+                  <div class="col-8">
+                    <p>Boys</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-4">
+                <p class="text-end">{{overAllStudentsTotalBoys}}</p>
+              </div>
+              <div class="col-8">
+                <div class="row">
+                  <div class="col-2">
+                    <img src="../../../../assets/icons/icons8-student.svg" />
+                  </div>
+                  <div class="col-8">
+                    <p>Girls</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-4">
+                <p class="text-end">{{overAllStudentsTotalGirls}}</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-2">
+            <button (click)="showStudentDashboard()" id="studentButton"
+              [ngClass]="{'brown' : !stuToggle, 'blue': stuToggle}">
+              <img src="../../../../assets/icons/Icon awesome-arrow-circle-right.svg" />
+            </button>
+          </div>
+          <hr>
+        </div>
+
+        <div class="row my-2">
+          <div class="col-10">
+            <div class="row staffRow">
+              <div class="col-8">
+                <p>TOTAL STAFF</p>
+              </div>
+              <div class="col-4">
+                <p class="text-end">{{overAllStaffTotal}}</p>
+              </div>
+              <div class="col-8">
+                <div class="row">
+                  <div class="col-2">
+                    <img src="../../../../assets/icons/Group 35070.svg" />
+                  </div>
+                  <div class="col-8">
+                    <p>Male</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-4">
+                <p class="text-end">{{overAllStaffTotalGents}}</p>
+              </div>
+              <div class="col-8">
+                <div class="row">
+                  <div class="col-2">
+                    <img src="../../../../assets/icons/woman.svg" />
+                  </div>
+                  <div class="col-8">
+                    <p>Female</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-4">
+                <p class="text-end">{{overAllStaffTotalLadies}}</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-2">
+            <button (click)="showTeacherDashboard()" id="staffButton"
+              [ngClass]="{'brown' : !teacherToggle, 'green': teacherToggle}">
+              <img src="../../../../assets/icons/Icon awesome-arrow-circle-right.svg" />
+            </button>
+          </div>
+          <hr>
+        </div>
+
+        <div class="row my-2">
+          <div class="col-10">
+            <div class="row inboxRow">
+              <div class="col-8">
+                <p>INBOX</p>
+              </div>
+              <div class="col-4">
+                <p class="text-end">{{mailCount}}</p>
+              </div>
+              <div class="col-8">
+                <div class="row">
+                  <div class="col-2">
+                    <img src="../../../../assets/icons/open-mail.svg" />
+                  </div>
+                  <div class="col-8">
+                    <p>Read</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-4">
+                <p class="text-end">{{readMailCount}}</p>
+              </div>
+              <div class="col-8">
+                <div class="row">
+                  <div class="col-2">
+                    <img src="../../../../assets/icons/_x31_4_Email_notification.svg" />
+                  </div>
+                  <div class="col-8">
+                    <p>Unread</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-4">
+                <p class="text-end">{{unReadMailCount}}</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-2">
+            <button (click)="showInboxDashboard()" id="inboxButton"
+              [ngClass]="{'brown' : !inboxToggle, 'pink': inboxToggle}">
+              <img src="../../../../assets/icons/Icon awesome-arrow-circle-right.svg" />
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- All Table Cards -->
+  <div class="col-lg-7 col-xl-8 stretch-card">
+    <div class="card dashboardCardClass" *ngIf="dashboardVisible">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-6">
+            <h6>Today's Event</h6>
+          </div>
+          <div class="col-6 text-right">
+            <div ngbDropdown>
+              <button pButton pRipple type="button" icon="pi pi-plus" label="Add"
+                class="p-button-outlined p-button-rounded" (click)="addEvent()"></button>
+            </div>
+          </div>
+          <div class="col-1">
+            <div ngbDropdown>
+              <button ngbDropdownToggle class="btn p-0 no-dropdown-toggle-icon" type="button" id="dropdownMenuButton7">
+                <i class="icon-lg text-muted pb-3px" data-feather="more-horizontal" appFeatherIcon></i>
+              </button>
+              <div ngbDropdownMenu aria-labelledby="dropdownMenuButton7">
+                <a ngbDropdownItem class="d-flex" href="" (click)="false"><i data-feather="eye" appFeatherIcon
+                    class="icon-sm me-2"></i> <span class="">View</span></a>
+              </div>
+            </div>
+          </div>
+
+
+
+
+        </div>
+
+
+
+
+        <p-accordion>
+          <p-accordionTab [selected]="true">
+            <ng-template pTemplate="header">
+              <ul style="list-style:none;" class="mt-2">
+                <li class="date-style">08-07-2022</li>
+                <li>Design Thinking Workshop</li>
+              </ul>
+            </ng-template>
+            <ng-template pTemplate="body">
+              <div class="row">
+                <div class="col-md-6 col-sm-12">
+                  <div class="row">
+                    <div class="col-6">
+                      <span class="headLine">Venue</span>
+                    </div>
+                    <div class="col-6">
+                      <span>EMIS</span>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-6">
+                      <span class="headLine">Time</span>
+                    </div>
+                    <div class="col-6">
+                      <span>10.00AM-1.00PM</span>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-6">
+                      <span class="headLine">Conducted by</span>
+                    </div>
+                    <div class="col-6">
+                      <span>kanna</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                  <div class="row">
+                    <div class="col-6">
+                      <span class="headLine">Topics Covered</span>
+                    </div>
+                    <div class="col-6">
+                      <div class="row">
+                        <div class="col-12">
+                          <span>UI Design</span>
+                        </div>
+                        <div class="col-12">
+                          <span>Frontend Develop</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </ng-template>
+          </p-accordionTab>
+        </p-accordion>
+        <br>
+        <h6>Upcoming Events</h6><br>
+        <p-accordion>
+          <p-accordionTab [selected]="false">
+            <ng-template pTemplate="header">
+              <ul style="list-style:none;" class="mt-2">
+                <li class="date-style">10-07-2022</li>
+                <li>Design Thinking Workshop</li>
+              </ul>
+            </ng-template>
+            <ng-template pTemplate="body">
+              <div class="row">
+                <div class="col-md-6 col-sm-12">
+                  <div class="row">
+                    <div class="col-6">
+                      <span class="headLine">Venue</span>
+                    </div>
+                    <div class="col-6">
+                      <span>EMIS</span>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-6">
+                      <span class="headLine">Time</span>
+                    </div>
+                    <div class="col-6">
+                      <span>10.00AM-1.00PM</span>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-6">
+                      <span class="headLine">Conducted by</span>
+                    </div>
+                    <div class="col-6">
+                      <span>kanna</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                  <div class="row">
+                    <div class="col-6">
+                      <span class="headLine">Topics Covered</span>
+                    </div>
+                    <div class="col-6">
+                      <div class="row">
+                        <div class="col-12">
+                          <span>UI Design</span>
+                        </div>
+                        <div class="col-12">
+                          <span>Frontend Develop</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </ng-template>
+          </p-accordionTab>
+          <p></p>
+
+          <p-accordionTab [selected]="false">
+            <ng-template pTemplate="header">
+              <ul style="list-style:none;" class="mt-2">
+                <li class="date-style">10-07-2022</li>
+                <li>Design Thinking Workshop</li>
+              </ul>
+            </ng-template>
+            <ng-template pTemplate="body">
+              <div class="row">
+                <div class="col-md-6 col-sm-12">
+                  <div class="row">
+                    <div class="col-6">
+                      <span class="headLine">Venue</span>
+                    </div>
+                    <div class="col-6">
+                      <span>EMIS</span>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-6">
+                      <span class="headLine">Time</span>
+                    </div>
+                    <div class="col-6">
+                      <span>10.00AM-1.00PM</span>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-6">
+                      <span class="headLine">Conducted by</span>
+                    </div>
+                    <div class="col-6">
+                      <span>kanna</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                  <div class="row">
+                    <div class="col-6">
+                      <span class="headLine">Topics Covered</span>
+                    </div>
+                    <div class="col-6">
+                      <div class="row">
+                        <div class="col-12">
+                          <span>UI Design</span>
+                        </div>
+                        <div class="col-12">
+                          <span>Frontend Develop</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </ng-template>
+          </p-accordionTab>
+        </p-accordion>
+      </div>
+    </div>
+
+    <div class="card studentTableClass" *ngIf="studentVisible">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-baseline mb-2">
+          <h6 class="mb-0">STUDENTS</h6>
+          <div ngbDropdown class="mb-2">
+            <button ngbDropdownToggle class="btn p-0 no-dropdown-toggle-icon" type="button" id="dropdownMenuButton7">
+              <i class="icon-lg text-muted pb-3px" data-feather="more-horizontal" appFeatherIcon></i>
+            </button>
+            <div ngbDropdownMenu aria-labelledby="dropdownMenuButton7">
+              <a ngbDropdownItem class="d-flex align-items-center" href="" (click)="false"><i data-feather="eye"
+                  appFeatherIcon class="icon-sm me-2"></i> <span class="">View</span></a>
+            </div>
+          </div>
+        </div>
+        <p-accordion class="studentDashboard">
+          <p-accordionTab header="By Class" [selected]="false">
+            <div class="student-table">
+              <p-table responsiveLayout="scroll" #dt [columns]="studentClassColumns" class="prime-table"
+                styleClass="p-datatable-gridlines" [value]="studentCountList" [style]="{'width':'250px !important'}"
+                [autoLayout]="true" [paginator]="true" [resizableColumns]="true" [(first)]="first" [rows]="5">
+                <ng-template pTemplate="header" let-columns>
+                  <tr class="student-table-header">
+                    <th *ngFor="let col of columns" [pSortableColumn]="col.field" pResizableColumn>{{col.header}}
+                      <i class="pi pi-sort" [field]="col.field"></i>
+                    </th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-stdlist let-rowData let-columns="columns" let-i="rowIndex">
+                  <tr>
+                    <td *ngFor="let col of columns" class="ui-resizable-column">{{rowData[col.field]}}</td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </p-accordionTab>
+          <p></p>
+          <p-accordionTab header="By Community" [selected]="false">
+            <div class="student-table">
+              <p-table responsiveLayout="scroll" #dt [columns]="studentCommunityColumns" class="prime-table"
+                styleClass="p-datatable-gridlines" [value]="stdCoummunity" [style]="{'width':'250px !important'}"
+                [autoLayout]="true" [resizableColumns]="true" [(first)]="first">
+                <ng-template pTemplate="header" let-columns>
+                  <tr class="student-table-header">
+                    <th *ngFor="let col of columns" pResizableColumn>{{col.header}}
+                    </th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-stdlist let-rowData let-columns="columns" let-i="rowIndex">
+                  <tr>
+                    <td *ngFor="let col of columns" class="ui-resizable-column">{{rowData[col.field]}}</td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </p-accordionTab>
+        </p-accordion>
+      </div>
+    </div>
+
+    <div class="card teacherTableClass" *ngIf="teacherVisible">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-baseline mb-2">
+          <h6 class="mb-0">STAFF</h6>
+          <div ngbDropdown class="mb-2">
+            <button ngbDropdownToggle class="btn p-0 no-dropdown-toggle-icon" type="button" id="dropdownMenuButton7">
+              <i class="icon-lg text-muted pb-3px" data-feather="more-horizontal" appFeatherIcon></i>
+            </button>
+            <div ngbDropdownMenu aria-labelledby="dropdownMenuButton7">
+              <a ngbDropdownItem class="d-flex align-items-center" href="" (click)="false"><i data-feather="eye"
+                  appFeatherIcon class="icon-sm me-2"></i> <span class="">View</span></a>
+            </div>
+          </div>
+        </div>
+        <p-accordion class="teacherDashboard">
+          <p-accordionTab header="By Type" [selected]="false">
+            <div class="staff-table">
+              <p-table responsiveLayout="scroll" #dt [columns]="teacherTypeColumns" class="prime-table"
+                styleClass="p-datatable-gridlines" [value]="teacherTypeCountList" [style]="{'width':'250px !important'}"
+                [autoLayout]="true" [resizableColumns]="true" [(first)]="first">
+                <ng-template pTemplate="header" let-columns>
+                  <tr class="staff-table-header">
+                    <th *ngFor="let col of columns" [pSortableColumn]="col.field" pResizableColumn>{{col.header}}
+                      <i class="pi pi-sort" [field]="col.field"></i>
+                    </th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-stdlist let-rowData let-columns="columns" let-i="rowIndex">
+                  <tr>
+                    <td *ngFor="let col of columns" class="ui-resizable-column">{{rowData[col.field]}}</td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+            <br>
+          </p-accordionTab>
+          <p></p>
+
+          <p-accordionTab header="By Designation" [selected]="false">
+            <div class="staff-table">
+              <p-table responsiveLayout="scroll" #dt [columns]="teacherDesignation" class="prime-table"
+                styleClass="p-datatable-gridlines" [value]="teacherDesignationCountList"
+                [style]="{'width':'250px !important'}" [autoLayout]="true" [resizableColumns]="true" [(first)]="first"
+                [rows]="5">
+                <ng-template pTemplate="header" let-columns>
+                  <tr class="staff-table-header">
+                    <th *ngFor="let col of columns" [pSortableColumn]="col.field" pResizableColumn>{{col.header}}
+                      <i class="pi pi-sort" [field]="col.field"></i>
+                    </th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-stdlist let-rowData let-columns="columns" let-i="rowIndex">
+                  <tr>
+                    <td *ngFor="let col of columns" class="ui-resizable-column">{{rowData[col.field]}}</td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </p-accordionTab>
+        </p-accordion>
+      </div>
+    </div>
+
+    <div class="card inboxTableClass" *ngIf="inboxVisible">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-baseline mb-2">
+          <h6 class="mb-0">INBOX</h6>
+          <div ngbDropdown class="mb-2">
+            <button ngbDropdownToggle class="btn p-0 no-dropdown-toggle-icon" type="button" id="dropdownMenuButton7">
+              <i class="icon-lg text-muted pb-3px" data-feather="more-horizontal" appFeatherIcon></i>
+            </button>
+            <div ngbDropdownMenu aria-labelledby="dropdownMenuButton7">
+              <a ngbDropdownItem class="d-flex align-items-center" href="" (click)="false"><i data-feather="eye"
+                  appFeatherIcon class="icon-sm me-2"></i> <span class="">View</span></a>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="d-flex flex-column"
+            *ngFor="let item of tablelist; let i = index"
+           >
+              <div class="mailCard my-1">
+                <a (click)="inboxMsg(item)" class="d-flex align-items-center my-2 mx-2">
+                  <div class="row">
+                    <div class="col-1">
+                      <img src="../../../../assets/icons/Group 35086.svg" />
+                    </div>
+                    <div class="col-1">
+                      <div class="me-3">
+                     <div class="circle" 
+[ngClass]="{'first' : i%5==0, 'second': i%5==1, 'third': i%5==2, 'fourth': i%5==3, 'fifth': i%5==4 }"
+    >
+<b >
+  {{ item.FUsrType.charAt(0)}}
+</b>
+                     </div>
+                        <!-- <img src="../../../../assets/images/placeholder.jpg" class="rounded-circle wd-35" alt="user"> -->
+                      </div>
+                    </div>
+                  </div>
+                  <div class="w-100">
+                    <div class="d-flex justify-content-between">
+                      <h6 class="text-body mb-2">{{item.FUsrType}}</h6>
+                      <b class="text-muted tx-12">{{item.CommDate}}</b>
+                    </div>
+                    <p class="text-muted tx-13">{{item.Title}}</p>
+                  </div>
+                </a>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="card inboxMsgCard" *ngIf="inboxtextMsg">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-baseline mb-2">
+          <h6 class="card-title mb-0">Inbox</h6>
+          <div ngbDropdown class="mb-2">
+            <button ngbDropdownToggle class="btn p-0 no-dropdown-toggle-icon" type="button" id="dropdownMenuButton7">
+              <i class="icon-lg text-muted pb-3px" data-feather="more-horizontal" appFeatherIcon></i>
+            </button>
+            <div ngbDropdownMenu aria-labelledby="dropdownMenuButton7">
+              <a ngbDropdownItem class="d-flex align-items-center" href="" (click)="false"><i data-feather="eye"
+                  appFeatherIcon class="icon-sm me-2"></i> <span class="">View</span></a>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex align-items-center justify-content-between p-3 border-bottom tx-16">
+          <div class="d-flex align-items-center">
+            <img src="../../../../assets/icons/arrow-left.svg" (click)="showInboxDashboard()" />&nbsp;&nbsp;
+            <span><b>{{mailSubject}}</b></span>
+          </div>
+          <div class="d-flex">
+            <!-- <i class="feather icon-share text-muted icon-lg me-2" ngbTooltip="Forward"></i>
+            <i class="feather icon-printer text-muted icon-lg me-2" ngbTooltip="Print"></i>
+            <i class="feather icon-trash text-muted icon-lg" ngbTooltip="Delete"></i> -->
+          </div>
+        </div>
+        <div class="d-flex align-items-center justify-content-between flex-wrap px-3 py-2 border-bottom">
+          <div class="d-flex align-items-center">
+            <div class="me-2">
+              <img src="https://via.placeholder.com/36x36" alt="Avatar" class="rounded-circle img-xs">
+            </div>
+            <div class="d-flex align-items-center">
+              <span class="text-body"><b>{{mailSender}}</b></span>
+              <span class="mx-2 text-muted">to</span>
+              <span (click)="false" class="text-body me-2">me</span>
+              <div class="actions" ngbDropdown>
+                <a class="text-muted" id="mailReadDropdown1" ngbDropdownToggle></a>
+                <div class="dropdown-menu" aria-labelledby="mailReadDropdown1" ngbDropdownMenu>
+                  <a ngbDropdownItem href="" (click)="false">Mark as read</a>
+                  <a ngbDropdownItem href="" (click)="false">Mark as unread</a>
+                  <a ngbDropdownItem href="" (click)="false">Spam</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="text-danger" ngbDropdownItem href="" (click)="false">Delete</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="tx-13 text-muted mt-2 mt-sm-0">{{mailReceiveDate}}</div>
+        </div>
+        <div class="p-4 border-bottom">
+          <p>{{mailContent}}</p>
+        </div>
+        <div class="p-3">
+          <p-button (click)="showAttachments()" label="Attachments"><i class="pi pi-paperclip"></i>&nbsp; </p-button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<p-dialog header="Today Birthday" appendTo="body" [(visible)]="displayModal" [modal]="true" [draggable]="false"
+  [resizable]="false" class="birthdayModal">
+  <ng-template pTemplate="body">
+    <div class="student-table text-center">
+      <br>
+      <h5 class="fw-bold">Student List</h5>
+      <p-table [value]="stuBirthdayList" styleClass="p-datatable-striped" responsiveLayout="scroll">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>EMIS Id</th>
+            <th>Student Name</th>
+            <th>Class & Section</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+          <tr>
+            <td>{{product.emis_id}}</td>
+            <td>{{product.name}}</td>
+            <td>{{product.details}}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+      <br>
+    </div>
+    <div class="staff-table text-center">
+      <h5 class="fw-bold">Teacher List</h5>
+      <p-table [value]="teacherBirthdayList" styleClass="p-datatable-striped" responsiveLayout="scroll">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>EMIS Id</th>
+            <th>Teacher Name</th>
+            <th>Designation</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+          <tr>
+            <td>{{product.emis_id}}</td>
+            <td>{{product.name}}</td>
+            <td>{{product.details}}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <p-button icon="pi pi-check" (click)="displayModal=false" label="Ok" styleClass="p-button-text"></p-button>
+  </ng-template>
+</p-dialog>
+
+<p-dialog header="Add Event" appendTo="body" [(visible)]="eventModal" [modal]="true" [draggable]="false"
+  [resizable]="false">
+  <ng-template pTemplate="body">
+    <form [formGroup]="addEventForm" class="mt-2">
+      <div class="row">
+        <div class="col-md-6 col-sm-12 mt-2">
+          <label><b>Venue</b></label>
+          <input type="text" pInputText class="form-control" formControlName="venue" placeholder="Enter the Venue">
+        </div>
+        <div class="col-md-6 col-sm-12 mt-2">
+          <label><b>Time</b></label>
+          <input type="text" pInputText class="form-control" formControlName="time" placeholder="Enter the Time">
+        </div>
+        <div class="col-md-6 col-sm-12 mt-2">
+          <label><b>Conducted by</b></label>
+          <input type="text" pInputText class="form-control" formControlName="conductedBy"
+            placeholder="Enter the Conducted by">
+        </div>
+        <div class="col-md-6 col-sm-12 mt-2">
+          <label><b>Topics Covered</b></label>
+          <input type="text" pInputText class="form-control" formControlName="topics"
+            placeholder="Enter the Topics Covered">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col mt-4 text-right">
+          <button pButton icon="pi pi-check" (click)="eventModal=false" label="Save"></button>
+        </div>
+      </div>
+    </form>
+  </ng-template>
+</p-dialog>

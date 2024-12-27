@@ -1,0 +1,10 @@
+{ 
+    "AllDirectorateList": [
+        { "label": "DEE", "value": "1" },
+        { "label": "DSE", "value": "2" },
+        { "label": "SAMAGRA SHIKSHA", "value": "3" },
+        { "label": "GCC", "value": "4" },
+        { "label": "SCERT", "value": "5" },
+        { "label": "KALLAR - SCHOOLS", "value": "6" }
+    ]
+}

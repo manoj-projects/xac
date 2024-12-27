@@ -1,0 +1,33 @@
+
+.horizontal-menu .navbar .navbar-content .navbar-nav {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.text-body {
+    text-decoration: none;
+}
+
+@media print {
+    #printPageButton {
+        display: none;
+    }
+}
+
+.hideMenuStyle{
+    display: none !important;
+}
+
+span.hover:active{
+    color: white !important
+}
+.nav-img{
+    height: 50px !important;
+    margin: 5px !important
+}
+.in-progress{
+    margin-right: 10px;
+}
+.image-style{
+    width: 50px;
+}

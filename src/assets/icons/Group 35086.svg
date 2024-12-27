@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="15.122" height="33.822" viewBox="0 0 15.122 33.822">
+  <g id="Group_35086" data-name="Group 35086" transform="translate(-556 -240)">
+    <g id="Rectangle_19420" data-name="Rectangle 19420" transform="translate(556 240)" fill="#fff" stroke="#707070" stroke-width="0.4">
+      <rect width="15" height="14" rx="1" stroke="none"/>
+      <rect x="0.2" y="0.2" width="14.6" height="13.6" rx="0.8" fill="none"/>
+    </g>
+    <path id="Icon_feather-star" data-name="Icon feather-star" d="M10.211,3l2.228,4.514,4.983.728-3.605,3.512.851,4.961-4.456-2.344L5.755,16.715l.851-4.961L3,8.242l4.983-.728Z" transform="translate(553.5 256.907)" fill="none" stroke="#707070" stroke-linecap="round" stroke-linejoin="round" stroke-width="0.4"/>
+  </g>
+</svg>

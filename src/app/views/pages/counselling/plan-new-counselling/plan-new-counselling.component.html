@@ -1,0 +1,1987 @@
+<div *ngIf="!IsAddEditPage" class="printStyle">
+    <div class="row">
+        <div class="col">
+            <h5>
+                Plan New Counselling
+            </h5>
+        </div>
+        <div class="col text-right">
+            <button pButton type="button" (click)="handleAddNewCoun()">Add New Counselling</button>
+        </div>
+    </div>
+    <br>
+    <p-tabView>
+        <p-tabPanel header="Plan New Counselling">
+            <div class="Counselling-Secondary">
+
+                <p-table #dt [columns]="selectedCol" responsiveLayout="scroll" [value]="newPlanCounsellingList"
+                    [globalFilterFields]="['CounsellingType','Title','Directorate']" [showCurrentPageReport]="true"
+                    [rowsPerPageOptions]="[10,25,50]" [rowHover]="true"
+                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [autoLayout]="true"
+                    [paginator]="true" [resizableColumns]="true" [rows]="10">
+                    <ng-template pTemplate="caption">
+                        <div class="row">
+                            <div class="col-md-3 col-12 mb-2">
+                                <p-multiSelect [options]="selectedCounClmn" [(ngModel)]="selectedCol" optionLabel="header"
+                                    selectedItemsLabel="{0} columns selected" placeholder="Choose Columns"></p-multiSelect>
+                            </div>
+                            <div class="col-md-6 col-12"></div>
+                            <div class="col-md-3 col-12">
+                                <input type="text" pInputText placeholder="Search.."
+                                    (input)="dt.filterGlobal($event.target.value, 'contains')">
+                            </div>
+                        </div>
+                    </ng-template>
+                    <ng-template pTemplate="header" let-columns>
+                        <tr class="student-table-header">
+                            <th>S.No - (ID)</th>
+                            <th *ngFor="let col of columns" [pSortableColumn]="col.field" pResizableColumn>
+                                {{col.header}}
+                                <i class="pi pi-sort" [field]="col.field"></i>
+                            </th>
+                            <th>Order Copy</th>
+                            <th>Action</th>
+                            <th>Settings</th>
+                        </tr>
+
+                        <tr>
+                            <th></th>
+                            <th *ngFor="let col of columns" [ngSwitch]="col.field">
+                                <input *ngSwitchDefault pInputText type="text" class="textbox-filter" placeholder=" Search"
+                                    (input)="dt.filter($event.target.value, col.field, 'contains')">
+                                <input *ngSwitchCase="'class_studying'" pInputText type="text" class="textbox-filter"
+                                    placeholder=" Search " (input)="dt.filter($event.target.value, col.field, 'equals')">
+                            </th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+
+                    </ng-template>
+                    <ng-template pTemplate="body" let-stdlist let-rowData let-columns="columns" let-i="rowIndex">
+                        <tr>
+                            <td> <b>{{i+1}} </b> - ({{rowData.IndexId}})</td>
+                            <td *ngFor="let col of columns" class="ui-resizable-column">
+                                {{rowData[col.field]}}</td>
+                       
+                            <td>
+                                <span (click)="getOrderCopy(rowData)" class="span-font">
+                                    Order Copy
+                                </span>
+                            </td>
+                            <td>
+                                <button *ngIf="rowData.Status != '1'" pButton type="button" class="ui-button-primary" icon="pi pi-pencil"
+                                    (click)="handleEditCoun(rowData)">  </button>
+                                &nbsp;
+
+
+                                <button pButton type="button" class="p-button-warning" icon="pi pi-arrow-circle-down"
+                                    (click)="stopStartBtn(rowData, i, 'archived')">  </button>
+                                &nbsp;
+
+
+                            </td>
+                            <td >
+                                <!-- <p-inputSwitch [(ngModel)]="rowData.AppSts"
+                                   (onChange)="stopStartBtn(rowData, i, 'form')"></p-inputSwitch> -->
+                                   
+                                <button pButton type="button"  [icon]="rowData.Status == '2' || rowData.Status == '0' ? 'pi pi-play' : 'pi pi-pause'"
+                                [ngClass]="{'ui-button-success' : rowData.Status == '2' || rowData.Status == '0' , 'ui-button-danger' : rowData.Status == '1' }"
+                                (click)="stopStartBtn(rowData, i, 'counselling')">
+                                <!-- {{ rowData.Status == '2' || rowData.Status == '0' ? "Start" : "Stop" }} -->
+                            </button> &nbsp;
+
+                                   <button pButton type="button" class="p-button-secondary" icon="pi pi-cog"
+                                   (click)="handleSetting(rowData)"> </button>
+
+                           </td>
+
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage" let-columns>
+                        <tr>
+                            <td colspan="10" class="text-center">
+                                <strong>No Records Found </strong>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </p-tabPanel>
+        <p-tabPanel header="Archived Counselling">
+            <div class="Counselling-Secondary">
+                <p-table #dt1 [columns]="selectedCol" responsiveLayout="scroll" [value]="archivedList"
+                   [globalFilterFields]="['CounsellingType','Title','Directorate']" [autoLayout]="true" [paginator]="true" [resizableColumns]="true" [rows]="10"
+                    [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25,50]" [rowHover]="true"
+                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [autoLayout]="true">
+
+                    <ng-template pTemplate="header" let-columns>
+                        <tr class="student-table-header">
+                            <th>S.No</th>
+                            <th *ngFor="let col of columns" [pSortableColumn]="col.field" pResizableColumn>
+                                {{col.header}}
+                                <i class="pi pi-sort" [field]="col.field"></i>
+                            </th>
+                        </tr>
+                        <tr>
+
+                            <th></th>
+                            <th *ngFor="let col of columns" [ngSwitch]="col.field">
+                                <input *ngSwitchDefault pInputText type="text" class="textbox-filter" placeholder=" Search"
+                                    (input)="dt1.filter($event.target.value, col.field, 'contains')">
+                                <input *ngSwitchCase="'class_studying'" pInputText type="text" class="textbox-filter"
+                                    placeholder=" Search " (input)="dt1.filter($event.target.value, col.field, 'equals')">
+                            </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-stdlist let-rowData let-columns="columns" let-i="rowIndex">
+                        <tr>
+                            <td>{{i+1}}</td>
+                            <td *ngFor="let col of columns" class="ui-resizable-column">
+                                {{rowData[col.field]}}</td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage" let-columns>
+                        <tr>
+                            <td colspan="6" class="text-center">
+                                <strong>No Records Found </strong>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </p-tabPanel>
+    </p-tabView>
+
+</div>
+<div *ngIf="IsAddEditPage">
+    <div class="row">
+        <div class="col">
+            <h5>
+                {{ this.heading }}
+            </h5>
+        </div>
+        <div id="printPageButton" class="col text-right">
+            <button pButton pRipple type="button" (click)="handleCancel()" icon="pi pi-arrow-left" iconPos="left"
+                label="Back" class="p-button-danger"></button>&nbsp;
+        </div>
+    </div>
+    <br>
+
+
+    <div id="printPageButton" class="card p-4">
+        <p-steps [model]="items" [readonly]="false" [(activeIndex)]="activeIndex"></p-steps>
+    </div>
+
+    <div class="stepsdemo-content" *ngIf="activeIndex==0">
+        <p-card>
+            <ng-template pTemplate="title">
+                <!-- Personal Information -->
+            </ng-template>
+            <ng-template pTemplate="subtitle">
+                <!-- Enter your personal information -->
+            </ng-template>
+            <ng-template pTemplate="content">
+                <form [formGroup]="counsellingFirstForm">
+                    <div class="row">
+                        <div class="col">
+                            <label class="inMandatory"> From
+                            </label>
+
+                            <p-calendar formControlName="FromDate" [minDate]="this.currentDate" dateFormat="dd-mm-yy" appendTo="body"
+                                placeholder="Select from date.." (onSelect)="clearToDate()"></p-calendar>
+
+                            <p-message severity="error" text="From date is required" *ngIf="
+                                counsellingFirstForm.controls.FromDate.errors &&
+                                (submitted ||
+                                    counsellingFirstForm.controls.FromDate.dirty ||
+                                    counsellingFirstForm.controls.FromDate.touched)
+                                ">
+                            </p-message>
+
+                        </div>
+                        <div class="col">
+                            <label class="inMandatory"> To
+                            </label>
+                            <p-calendar formControlName="ToDate" [minDate]=this.minDate dateFormat="dd-mm-yy" appendTo="body"
+                                placeholder="Select to date..">
+                            </p-calendar>
+                            <p-message severity="error" text="To date is required" *ngIf="
+                        counsellingFirstForm.controls.ToDate.errors &&
+                        (submitted ||
+                            counsellingFirstForm.controls.ToDate.dirty ||
+                            counsellingFirstForm.controls.ToDate.touched)
+                        ">
+                            </p-message>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col">
+                            <label class="inMandatory"> Title</label>
+                            <input formControlName="Title" placeholder="Enter title" class="form-control" type="text"
+                                pInputText />
+                            <p-message severity="error" text="Title is required" *ngIf="
+                        counsellingFirstForm.controls.Title.errors &&
+                        (submitted ||
+                            counsellingFirstForm.controls.Title.dirty ||
+                            counsellingFirstForm.controls.Title.touched)
+                        ">
+                            </p-message>
+                        </div>
+                        <div class="col">
+                            <label class="inMandatory"> Directorate </label>
+                            <p-dropdown formControlName="Directorate" [options]="directorateList"
+                                (onChange)="handleDirectorate()" placeholder="Select a directorate" [showClear]="true">
+                            </p-dropdown>
+                            <p-message severity="error" text="Directorate is required" *ngIf="
+                    counsellingFirstForm.controls.Directorate.errors &&
+                    (submitted ||
+                    counsellingFirstForm.controls.Directorate.dirty ||
+                    counsellingFirstForm.controls.Directorate.touched)
+                ">
+                            </p-message>
+                        </div>
+                    </div>
+
+                    <div class="row mt-2">
+
+                        <div class="col">
+                            <label class="inMandatory"> Counselling Type</label>
+                            <p-dropdown formControlName="CounsellingType" [options]="counsellingTypeList" (onChange)="handleCounsellingType()"
+                                placeholder="Select a counselling type" [showClear]="true"></p-dropdown>
+                            <!-- (onChange)="handleCounsellingType()" -->
+                            <p-message severity="error" text="Counselling type is required" *ngIf="
+                    counsellingFirstForm.controls.CounsellingType.errors &&
+                    (submitted ||
+                    counsellingFirstForm.controls.CounsellingType.dirty ||
+                    counsellingFirstForm.controls.CounsellingType.touched)
+                ">
+                            </p-message>
+                        </div> 
+                        <div class="col">
+                            <label class="inMandatory"> Location </label>
+
+                            <!-- (onChange)="handleRCLoop()" -->
+                            <!-- (onChange)="handleRcStaff()" -->
+
+                            <p-dropdown formControlName="Location" [options]="locationList" [disabled]="locationDisable ? true : false"
+                                placeholder="Select a location" [showClear]="true"></p-dropdown>
+                            <p-message severity="error" text="Location is required" *ngIf="
+                    counsellingFirstForm.controls.Location.errors &&
+                    (submitted ||
+                    counsellingFirstForm.controls.Location.dirty ||
+                    counsellingFirstForm.controls.Location.touched)
+                ">
+                            </p-message>
+                        </div>
+                       
+                    </div>
+                    <div class="row mt-2" *ngIf="counsellingFirstForm.value.CounsellingType != 8">
+                        <div class="col-6">
+                            <label class="inMandatory">Candidate Updated By</label>
+                            <p-dropdown formControlName="CandidateUpdatedBy" [options]="vacancyLevelList"
+                                placeholder="Select a candidate updated by" [showClear]="true"></p-dropdown>
+                            <p-message severity="error" text="candidate updated by is required" *ngIf="
+                        counsellingFirstForm.controls.CandidateUpdatedBy.errors &&
+                        (submitted ||
+                        counsellingFirstForm.controls.CandidateUpdatedBy.dirty ||
+                        counsellingFirstForm.controls.CandidateUpdatedBy.touched)
+                    ">
+                            </p-message>
+                        </div>
+                    </div>
+                </form>
+            </ng-template>
+
+            <ng-template pTemplate="footer">
+                <div class="grid grid-nogutter justify-content-end row">
+                    <div class="col text-right">
+                        <button pButton pRipple type="button" (click)="firstStepSubmit()" icon="pi pi-angle-right"
+                            iconPos="right" label="Next" class="p-button-success"></button>
+                    </div>
+
+                </div>
+            </ng-template>
+        </p-card>
+    </div>
+
+    <div class="stepsdemo-content" *ngIf="activeIndex==1">
+        <p-card>
+            <ng-template pTemplate="title">
+                <!-- Personal Information -->
+            </ng-template>
+            <ng-template pTemplate="subtitle">
+                <!-- Enter your personal information -->
+            </ng-template>
+            <ng-template pTemplate="content">
+
+                <div class="row">
+                    <div class="col-3">
+                        <label class="inMandatory"> Staff Type</label>
+
+                        <p-dropdown [options]="StaffTypeList" [(ngModel)]="StaffType" placeholder="Select a staff type" filterBy="label"
+ filter="'true"                            [disabled]="this.StaffDisable" (onChange)="handleStaffType()" [showClear]="true">
+                        </p-dropdown>
+                    </div>
+
+                    <div class="col-3" *ngIf="IsShowSubject">
+                        <label class="inMandatory"> Subject</label>
+                        <p-dropdown [options]="SubjectList" [(ngModel)]="Subject" placeholder="Select a staff type"
+                            [showClear]="true"></p-dropdown>
+                    </div>
+
+                    <div class="col-3 mt-4 pt-1">
+                        <label> </label>
+                        <p-button label="Add" (onClick)="addStaff()" icon="pi pi-angle-right" iconPos="right" [disabled]="staffAddValid">
+                        </p-button>
+                    </div>
+                </div>
+                <br />
+
+                <div class="Counselling-Secondary">
+                    <p-table #dt [columns]="selectedColumns" responsiveLayout="scroll" [value]="staffList"
+                        [autoLayout]="true" [paginator]="true" [resizableColumns]="true" [rows]="10" class="prime-table"
+                        [rowsPerPageOptions]="[10,25,50]" [showCurrentPageReport]="true" [rowHover]="true"
+                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" >
+                        <ng-template pTemplate="header" let-columns>
+                            <tr class="student-table-header">
+                                <!-- <th>S.No</th>
+                                <th>
+                                    Designation
+                                </th>
+                                <th>Subject</th> -->
+                                <th>S.No</th>
+                                <th *ngFor="let col of columns" [pSortableColumn]="col.field" pResizableColumn>
+                                    {{col.header}}
+                                    <i class="pi pi-sort" [field]="col.field"></i>
+                                </th>
+                                <th class="text-center">Remove</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-stdlist let-rowData let-columns="columns" let-i="rowIndex">
+                            <tr>
+                                <td>{{i+1}}</td>
+                                <td *ngFor="let col of columns" class="ui-resizable-column">
+                                    {{rowData[col.field] ? rowData[col.field] : '-'}}</td>
+                                <td class="text-center"><i class="pi pi-times-circle cursor-pointer text-danger"
+                                        (click)="deleteStaffList(i)"></i> </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage" let-columns>
+                            <tr>
+                                <td colspan="4" class="text-center">
+                                    <strong>No Records Found </strong>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </ng-template>
+
+            <ng-template pTemplate="footer">
+
+                <div class="justify-content-end">
+                    <div class="row">
+                        <div class="col-6">
+
+                            <button pButton pRipple type="button" (click)="previousPage()" icon="pi pi-angle-left"
+                                label="Previous" class="p-button-danger"></button>
+                        </div>
+                        <div class="col-6 text-right">
+
+
+                            <button pButton pRipple type="button" (click)="secondStepSubmit()" icon="pi pi-angle-right"
+                                iconPos="right" label="Next" class="p-button-success"></button>
+
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+        </p-card>
+    </div>
+
+    <div class="stepsdemo-content" *ngIf="activeIndex==2 && this.counsellingFirstForm.value.CounsellingType != 4">
+        <p-card>
+            <ng-template pTemplate="title">
+                <!-- Personal Information -->
+            </ng-template>
+            <ng-template pTemplate="subtitle">
+                <!-- Enter your personal information -->
+            </ng-template>
+            <ng-template pTemplate="content">
+                <div class="row">
+                    <div class="col">
+                        <b *ngIf="isSCERT">Please select the type of institution from which candidate will participate in counselling.</b>
+                        <b *ngIf="!isSCERT">Please select the type of school from which candidate will participate in counselling.</b>
+                    </div>
+                </div>
+                <br>
+                <div class="row" *ngIf="this.counsellingFirstForm.value.Directorate != '5' && this.counsellingFirstForm.value.Directorate != '4'">
+                    <div class="col-4" *ngIf="!isSCERT">
+                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                            <label for="schType"> School Type </label>
+                            <div class="field-radiobutton">
+                                <p-radioButton name="sch mt-1" value="1" [(ngModel)]="schType" inputId="sch1" (click)="handleSchType()"></p-radioButton>&nbsp;
+                                <span for="sch1">Government</span>&nbsp;&nbsp;
+                            <!-- </div>
+                            <div class="field-radiobutton mt-1"> -->
+                                <p-radioButton name="sch" value="2" [(ngModel)]="schType" inputId="sch2" (click)="handleSchType()"></p-radioButton>&nbsp;
+                                <span for="sch2">Aided</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col" *ngIf="this.schType == 2">
+                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                            <label for="counselling_minority"> Minority Type </label>
+                            <div class="field-radiobutton">
+                                <p-radioButton name="sch mt-1" value="1" [(ngModel)]="counselling_minority" inputId="mnrt1"></p-radioButton>&nbsp;
+                                <span for="mnrt1">Minority</span>&nbsp;&nbsp;
+                                <p-radioButton name="sch" value="2" [(ngModel)]="counselling_minority" inputId="mnrt2"></p-radioButton>&nbsp;
+                                <span for="mnrt2">Non-Minority</span>&nbsp;&nbsp;
+                                <p-radioButton name="sch" value="3" [(ngModel)]="counselling_minority" inputId="mnrt3"></p-radioButton>&nbsp;
+                                <span for="mnrt3">Opened</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col">
+                        <p-table [value]="CategoryList" styleClass="p-datatable-gridlines" responsiveLayout="scroll">
+                            <ng-template pTemplate="caption">
+                                Category
+                            </ng-template>
+                            <ng-template pTemplate="body" let-category>
+                                <tr>
+                                    <td>
+                                        <p-checkbox name="category.id" value="{{category.id}}"
+                                            [(ngModel)]="selectedSchCategory">
+                                        </p-checkbox>
+                                    </td>
+                                    <td>
+                                        {{ category.label }}
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+
+                    </div>
+                    <div class="col">
+                        <p-table [value]="ManagementList" styleClass="p-datatable-gridlines" responsiveLayout="scroll">
+                            <ng-template pTemplate="caption">
+                                Management
+                            </ng-template>
+
+                            <ng-template pTemplate="body" let-manage>
+                                <tr>
+                                    <td>
+                                        <p-checkbox name="manage.id" value="{{manage.id}}" 
+                                            [(ngModel)]="selectedSchManage">
+                                        <!-- [disabled]="userType1 == 29 || this.counsellingFirstForm.value.CounsellingType == 9 ? true : false" -->
+
+                                        </p-checkbox>
+                                    </td>
+                                    <td>
+                                        {{ manage.label }}
+                                    </td>
+                                </tr>
+                            </ng-template>
+
+                        </p-table>
+
+
+
+                    </div>
+                    <div class="col">
+
+
+
+                        <p-table [value]="PanelList" styleClass="p-datatable-gridlines" responsiveLayout="scroll">
+                            <ng-template pTemplate="caption">
+                                Panel
+                            </ng-template>
+
+                            <ng-template pTemplate="body" let-panel>
+                                <tr>
+                                    <td>
+                                        <p-checkbox name="panel.id" value="{{panel.id}}" [(ngModel)]="selectedSchPanel">
+                                        </p-checkbox>
+                                    </td>
+                                    <td>
+                                        {{ panel.label }}
+                                    </td>
+                                </tr>
+                            </ng-template>
+
+                        </p-table>
+                    </div>
+                </div>
+                <br />
+            </ng-template>
+            <ng-template pTemplate="footer">
+                <div class="justify-content-end">
+                    <div class="row">
+                        <div class="col-6">
+                            <button pButton pRipple type="button" (click)="previousPage()" icon="pi pi-angle-left"
+                                label="Previous" class="p-button-danger"></button>
+                        </div>
+                        <div class="col-6 text-right">
+                            <button pButton pRipple type="button" (click)="thirdStepSubmit()" icon="pi pi-angle-right"
+                                iconPos="right" label="Next" class="p-button-success"></button>
+
+
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+        </p-card>
+    </div>
+
+    <div *ngIf="activeIndex==2 && (this.counsellingFirstForm.value.CounsellingType == 4)">
+        <p-card>
+            <div class="row">
+                <div class="col">
+                    <b>
+                        No School Category
+                    </b>
+                </div>
+            </div>
+
+            <br>
+            <div class="justify-content-end">
+                <div class="row">
+                    <div class="col-6">
+                        <button pButton pRipple type="button" (click)="previousPage()" icon="pi pi-angle-left"
+                            label="Previous" class="p-button-danger"></button>
+                    </div>
+                    <div class="col-6 text-right">
+                        <button pButton pRipple type="button" (click)="nextPage()" icon="pi pi-angle-right" label="Next"
+                            class="p-button-success" iconPos="right"></button>
+                    </div>
+                </div>
+            </div>
+        </p-card>
+    </div>
+
+    <div class="stepsdemo-content" *ngIf="activeIndex==3">
+        <p-card>
+            <ng-template pTemplate="title">
+                <!-- Personal Information -->
+            </ng-template>
+            <ng-template pTemplate="subtitle">
+                <!-- Enter your personal information -->
+            </ng-template>
+            <ng-template pTemplate="content">
+                <div class="row">
+                    <div class="col">
+                        <b *ngIf="isSCERT">Please select the types of institution whose vacancies should be shown to the participate.</b>
+                        <b *ngIf="!isSCERT">Please select the types of school whose vacancies should be shown to the participate.</b>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-4">
+                        <label> Vacancy Updated By</label>
+                        <p-dropdown [(ngModel)]="VacUpdatedBy" [options]="vacancyLevelList" placeholder="Select.."
+                            [showClear]="true"></p-dropdown>
+                    </div>
+                    <div class="col" *ngIf="this.schType == 2">
+                        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                            <label for="vacancy_minority">Vacancies Minority Type </label>
+                            <div class="field-radiobutton">
+                                <p-radioButton name="sch mt-1" value="1" [(ngModel)]="vacancy_minority" inputId="mnrt1"></p-radioButton>&nbsp;
+                                <span for="mnrt1">Minority</span>&nbsp;&nbsp;
+                                <p-radioButton name="sch" value="2" [(ngModel)]="vacancy_minority" inputId="mnrt2"></p-radioButton>&nbsp;
+                                <span for="mnrt2">Non-Minority</span>&nbsp;&nbsp;
+                                <p-radioButton name="sch" value="3" [(ngModel)]="vacancy_minority" inputId="mnrt3"></p-radioButton>&nbsp;
+                                <span for="mnrt3">Opened</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col">
+                        <p-table [value]="CategoryList" styleClass="p-datatable-gridlines" responsiveLayout="scroll">
+                            <ng-template pTemplate="caption">
+                                Category
+                            </ng-template>
+                            <ng-template pTemplate="body" let-category>
+                                <tr>
+                                    <td>
+                                        <p-checkbox name="category.id" value="{{category.id}}"
+                                            [(ngModel)]="selectedVacancyCategory">
+                                        </p-checkbox>
+                                    </td>
+                                    <td>
+                                        {{ category.label }}
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                    <div class="col">
+                        <p-table [value]="ManagementList" styleClass="p-datatable-gridlines" responsiveLayout="scroll">
+                            <ng-template pTemplate="caption">
+                                Management
+                            </ng-template>
+
+                            <ng-template pTemplate="body" let-manage>
+                                <tr>
+                                    <td>
+                                        <p-checkbox name="manage.id" value="{{manage.id}}" [disabled]="userType1 == 29"
+                                            [(ngModel)]="selectedVacancyManage">
+                                        </p-checkbox>
+                                    </td>
+                                    <td>
+                                        {{ manage.label }}
+                                    </td>
+                                </tr>
+                            </ng-template>
+
+                        </p-table>
+                    </div>
+                    <div class="col">
+                        <p-table [value]="PanelList" styleClass="p-datatable-gridlines" responsiveLayout="scroll">
+                            <ng-template pTemplate="caption">
+                                Panel
+                            </ng-template>
+
+                            <ng-template pTemplate="body" let-panel>
+                                <tr>
+                                    <td>
+                                        <p-checkbox name="panel.id" value="{{panel.id}}"
+                                            [(ngModel)]="selectedVacancyPanel">
+                                        </p-checkbox>
+                                    </td>
+                                    <td>
+                                        {{ panel.label }}
+                                    </td>
+                                </tr>
+                            </ng-template>
+
+                        </p-table>
+                    </div>
+                </div>
+                <br />
+            </ng-template>
+            <ng-template pTemplate="footer">
+                <div class="justify-content-end">
+                    <div class="row">
+                        <div class="col-6">
+                            <button pButton pRipple type="button" (click)="previousPage()" icon="pi pi-angle-left"
+                                label="Previous" class="p-button-danger"></button>
+                        </div>
+                        <div class="col-6 text-right">
+
+                            <button pButton pRipple type="button" (click)="fourthStepSubmit()" icon="pi pi-angle-right"
+                                iconPos="right" label="Next" class="p-button-success"></button>
+
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+        </p-card>
+    </div>
+
+    <div class="stepsdemo-content" *ngIf="activeIndex==4 && (this.counsellingFirstForm.value.CounsellingType != 3 && this.counsellingFirstForm.value.CounsellingType != 4 && this.counsellingFirstForm.value.CounsellingType != 5 && this.counsellingFirstForm.value.CounsellingType != 6 && this.counsellingFirstForm.value.CounsellingType != 7)">
+        <p-card>
+            <ng-template pTemplate="title">
+                <!-- Personal Information -->
+            </ng-template>
+            <ng-template pTemplate="subtitle">
+                <!-- Enter your personal information -->
+            </ng-template>
+            <ng-template pTemplate="content">
+
+                <div class="row">
+                    <div class="col-6">
+                        <label>Approval Level 1
+
+                        </label>
+                        <p-dropdown [(ngModel)]="Level1Approver" [options]="Level1ApproverList" placeholder="Select.."
+                            [showClear]="true"></p-dropdown>
+                    </div>
+                    <div class="col-6" *ngIf="this.StaffType != '134'">
+                        <label>Approval Level 2
+                        </label>
+                        <p-dropdown [(ngModel)]="Level2Approver" [options]="Level2ApproverList" placeholder="Select.."
+                            [showClear]="true"></p-dropdown>
+                    </div>
+                </div>
+            </ng-template>
+
+            <ng-template pTemplate="footer">
+
+                <div class="justify-content-end">
+                    <div class="row">
+                        <div class="col-6">
+
+                            <button pButton pRipple type="button" (click)="previousPage()" icon="pi pi-angle-left"
+                                label="Previous" class="p-button-danger"></button>
+                        </div>
+                        <div class="col-6 text-right">
+
+
+                            <button pButton pRipple type="button" (click)="approvalStepSubmit()"
+                                icon="pi pi-angle-right" iconPos="right" label="Next" class="p-button-success"></button>
+
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+        </p-card>
+    </div>
+
+    <div class="stepsdemo-content" *ngIf="activeIndex==4 && (this.counsellingFirstForm.value.CounsellingType == 3 || this.counsellingFirstForm.value.CounsellingType == 4 || this.counsellingFirstForm.value.CounsellingType == 5 || this.counsellingFirstForm.value.CounsellingType == 6  || this.counsellingFirstForm.value.CounsellingType == 7)">
+        <p-card>
+            <div class="row">
+                <div class="col">
+                    <b>
+                        No Approval
+                    </b>
+                </div>
+            </div>
+            <br>
+            <div class="justify-content-end">
+                <div class="row">
+                    <div class="col-6">
+
+                        <button pButton pRipple type="button" (click)="previousPage()" icon="pi pi-angle-left"
+                            label="Previous" class="p-button-danger"></button>
+                    </div>
+                    <div class="col-6 text-right">
+
+
+                        <button pButton pRipple type="button" (click)="nextPage()" icon="pi pi-angle-right"
+                            iconPos="right" label="Next" class="p-button-success"></button>
+
+                    </div>
+                </div>
+            </div>
+        </p-card>
+    </div>
+
+    <div class="stepsdemo-content Counselling"
+        *ngIf="activeIndex==5 && (this.counsellingFirstForm.value.CounsellingType != 3 && this.counsellingFirstForm.value.CounsellingType != 4 && this.counsellingFirstForm.value.CounsellingType != 5 && this.counsellingFirstForm.value.CounsellingType != 6 && this.counsellingFirstForm.value.CounsellingType != 7)">
+        <p-card>
+            <ng-template pTemplate="title">
+                <!-- Personal Information -->
+            </ng-template>
+            <ng-template pTemplate="subtitle">
+                <!-- Enter your personal information -->
+            </ng-template>
+            <!-- For Rules Flow Start -->
+            <!-- <ng-template pTemplate="content">
+                <p-table #dt [columns]="selectedVacanciesColumns" responsiveLayout="scroll" [value]="RuleList"
+                    [autoLayout]="true" [paginator]="true" [resizableColumns]="true" [rows]="10">
+
+                    <ng-template pTemplate="header" let-columns>
+                        <tr class="student-table-header">
+                            <th>
+                                S.No
+                            </th>
+                            <th>
+                                Rule
+                            </th>
+                            <th>
+                                Action
+                            </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-stdlist let-rowData let-columns="columns" let-i="rowIndex">
+                        <tr>
+                            <td>
+                                {{i+1}}
+                            </td>
+                            <td>
+                                {{ rowData.Rule }}
+                            </td>
+                            <td>
+                                <p-inputSwitch [(ngModel)]="rowData.id" name="rowData.id" value="rowData.id"
+                                    id="rowData.id" (onChange)="handleSwitch($event, rowData)"></p-inputSwitch>
+                            </td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage" let-columns>
+                        <tr>
+                            <td colspan="3" class="text-center">
+                                <strong>No Records Found </strong>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+                <br />
+            </ng-template> -->
+            <!-- For Rules Flow End -->
+
+            <ng-template pTemplate="content">
+                <div class="row">
+                    <!-- <div class="col-4">
+                        <label>Priority</label>
+                        <p-dropdown  [options]="priorityList" [(ngModel)]="priority"
+                    placeholder="Select a priority" [showClear]="true"></p-dropdown>           
+                    </div> -->
+                    <div class="col-12 text-right">
+                        <button pButton pRipple type="button" (click)="addNewPriority()" icon="pi pi-plus"
+                            label="Add New Priority" class="p-button-success mt-4 pt-2"></button>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col">
+                        <p-table #dt [columns]="selectedPriorityColumns" responsiveLayout="scroll"
+                            [value]="addedPriorityList" [autoLayout]="true" [paginator]="true" [resizableColumns]="true"
+                            [rows]="10">
+
+                            <ng-template pTemplate="header" let-columns>
+                                <tr class="student-table-header">
+                                    <th >
+                                        Priority
+                                    </th>
+                                    <th >
+                                        Action
+                                    </th>
+                                    <th class="text-center">Remove</th>
+
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-stdlist let-columns="columns" let-i="rowIndex">
+                                <tr>
+
+                                    <td class="cusDropDown2">
+                                        <!-- <div class="row">
+                                        <div class="col-6"> -->
+                                        <p-dropdown [options]="priorityList" [(ngModel)]="priority" appendTo="body" 
+                                            *ngIf="stdlist.label == ''" placeholder="Select a priority"
+                                            [virtualScroll]="true" [virtualScrollItemSize]="50"
+                                            [showClear]="true"></p-dropdown>
+                                        <div class="text-wrap" *ngIf="stdlist.label">
+                                            {{ stdlist.label }}
+                                        </div>
+                                        <!-- </div> -->
+                                        <!-- <div class="col-6">
+
+                                </div> -->
+                                        <!-- </div> -->
+                                    </td>
+                                    <td >
+                                        <button pButton pRipple type="button" (click)="addOneMorePriority(i)"
+                                            icon="pi pi-plus" *ngIf="stdlist.label == ''" label="Add"
+                                            class="p-button-success mt-2"></button>
+
+                                        <span *ngIf="stdlist.label">
+                                            {{i + 1}}
+                                        </span>
+                                    </td>
+                                    <td class="text-center"><i
+                                            class="pi pi-times-circle text-danger cursor-pointer fs-5"
+                                            (click)="removePriorityList(i, stdlist)" *ngIf="stdlist.label"></i> </td>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="emptymessage" let-columns>
+                                <tr>
+                                    <td colspan="3" class="text-center">
+                                        <strong>No Records Found </strong>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+
+                    </div>
+                </div>
+            </ng-template>
+
+            <ng-template pTemplate="footer">
+                <div class="justify-content-end">
+                    <div class="row">
+                        <div class="col-6">
+                            <button pButton pRipple type="button" (click)="previousPage()" icon="pi pi-angle-left"
+                                label="Previous" class="p-button-danger"></button>
+                        </div>
+                        <div class="col-6 text-right">
+                            <button pButton pRipple type="button" (click)="prioritySubmit()" icon="pi pi-angle-right"
+                                label="Next" class="p-button-success" iconPos="right"></button>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+        </p-card>
+    </div>
+    <div *ngIf="activeIndex==5 && (this.counsellingFirstForm.value.CounsellingType == 3 || this.counsellingFirstForm.value.CounsellingType == 4 || this.counsellingFirstForm.value.CounsellingType == 5 || this.counsellingFirstForm.value.CounsellingType == 6  || this.counsellingFirstForm.value.CounsellingType == 7)">
+        <p-card>
+            <div class="row">
+                <div class="col">
+                    <b>
+                        No Priority
+                    </b>
+                </div>
+            </div>
+
+            <br>
+            <div class="justify-content-end">
+                <div class="row">
+                    <div class="col-6">
+                        <button pButton pRipple type="button" (click)="previousPage()" icon="pi pi-angle-left"
+                            label="Previous" class="p-button-danger"></button>
+                    </div>
+                    <div class="col-6 text-right">
+                        <button pButton pRipple type="button" (click)="nextPage()" icon="pi pi-angle-right" label="Next"
+                            class="p-button-success" iconPos="right"></button>
+                    </div>
+                </div>
+            </div>
+        </p-card>
+    </div>
+
+    <div class="stepsdemo-content" *ngIf="activeIndex==6">
+        <div class="card p-4">
+
+            <div class="row mb-4">
+                <div class="col text-center">
+                    <h5>Order Template</h5>
+                </div>
+            </div>
+
+            <p-tabView [activeIndex]="activeIndexId" (onChange)="handleTabView($event)">
+                <p-tabPanel [selected]="firstTab" header="Order Copy">
+                    <ng-container *ngTemplateOutlet="sameAsType">
+                    </ng-container>
+
+                    <ng-template pTemplate="footer">
+                        <div class="justify-content-end">
+                            <div class="row">
+                                <div class="col-6">
+                                    <button pButton pRipple type="button" (click)="previousPage()"
+                                        icon="pi pi-angle-left" label="Previous" class="p-button-danger"></button>
+                                </div>
+                                <div class="col text-right">
+                                    <button pButton type="submit" (click)="handleHTMLPreview()"
+                                        class="ui-button-primary" label="Preview">
+                                    </button> &nbsp;
+
+                                    <button pButton pRipple type="button" (click)="handleTabSave()"
+                                        icon="pi pi-angle-right" iconPos="right" label="Next"
+                                        class="p-button-success"></button>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+
+                </p-tabPanel>
+
+                <p-tabPanel [selected]="secondTab" header="Relinguish"
+                    *ngIf="this.counsellingFirstForm.value.CounsellingType == 3">
+                    <ng-container *ngTemplateOutlet="sameAsType">
+                    </ng-container>
+
+                    <ng-template pTemplate="footer">
+                        <div class="justify-content-end">
+                            <div class="row">
+                                <div class="col-6">
+                                    <button pButton pRipple type="button" (click)="previousPage()"
+                                        icon="pi pi-angle-left" label="Previous" class="p-button-danger"></button>
+                                </div>
+                                <div class="col text-right">
+                                    <button pButton type="submit" (click)="handleHTMLPreview()"
+                                        class="ui-button-primary" label="Preview">
+                                    </button> &nbsp;
+
+                                    <button pButton pRipple type="button" (click)="handleTabSave()"
+                                        icon="pi pi-angle-right" iconPos="right" label="Next"
+                                        class="p-button-success"></button>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+
+                </p-tabPanel>
+            </p-tabView>
+
+            <ng-template #sameAsType>
+                <form [formGroup]="OrderTemplate">
+
+                    <br />
+                    <br />
+                    <div class="row">
+                        <div class="col-3">
+                            <label>Header
+
+                            </label>
+                        </div>
+                        <div class="col-9">
+                            <!-- <input type="text" formControlName="Header" class="form-control tamil" pTextInput /> -->
+                            <ckeditor #myEditor formControlName="Header" [config]="toolbars" [editor]="Editor">
+                            </ckeditor>
+
+                            <p-message severity="error" text="Header is required" *ngIf="
+                    OrderTemplate.controls.Header.errors &&
+                    (submitOrder ||
+                        OrderTemplate.controls.Header.dirty ||
+                        OrderTemplate.controls.Header.touched)
+                    ">
+                            </p-message>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-3">
+                            <label> Sub 1 (பொருள்)</label>
+                        </div>
+                        <div class="col-9">
+                            <!-- <input type="text" formControlName="Reference" class="form-control tamil" pTextInput/> -->
+                            <ckeditor #myEditor formControlName="Reference" [config]="toolbars" [editor]="Editor">
+                            </ckeditor>
+                            <p-message severity="error" text="Reference is required" *ngIf="
+                    OrderTemplate.controls.Reference.errors &&
+                    (submitOrder ||
+                        OrderTemplate.controls.Reference.dirty ||
+                        OrderTemplate.controls.Reference.touched)
+                    ">
+                            </p-message>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-3">
+                            <label> Sub 2 (பார்வை)</label>
+                        </div>
+                        <div class="col-9">
+                            <!-- <input type="text" formControlName="Reference2" class="form-control tamil" pTextInput/> -->
+                            <ckeditor #myEditor formControlName="Reference2" [config]="toolbars" [editor]="Editor">
+                            </ckeditor>
+                            <p-message severity="error" text="Reference2 is required" *ngIf="
+                    OrderTemplate.controls.Reference2.errors &&
+                    (submitOrder ||
+                        OrderTemplate.controls.Reference2.dirty ||
+                        OrderTemplate.controls.Reference2.touched)
+                    ">
+                            </p-message>
+                        </div>
+                    </div>
+                    <br />
+
+
+
+                    <div class="row">
+                        <div class="col-3">
+                            <label>Content Before Candidate Details</label>
+                        </div>
+                        <div class="col-9">
+                            <!-- <textarea type="text" formControlName="ContentBefore" class="form-control" [autoResize]="true" [rows]="6" pInputTextarea > </textarea> -->
+                            <!-- <jodit-editor formControlName="ContentBefore"></jodit-editor> -->
+                            <ckeditor #myEditor formControlName="ContentBefore" [config]="toolbars" [editor]="Editor">
+                            </ckeditor>
+                            <p-message severity="error" text="Content Before Candidate Details is required" *ngIf="
+                    OrderTemplate.controls.ContentBefore.errors &&
+                    (submitOrder ||
+                        OrderTemplate.controls.ContentBefore.dirty ||
+                        OrderTemplate.controls.ContentBefore.touched)
+                    ">
+                            </p-message>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-3">
+                            <label>Content After Candidate Details</label>
+                        </div>
+                        <div class="col-9">
+                            <!-- <textarea type="text" formControlName="afterContent" class="form-control" [autoResize]="true" [rows]="6" pInputTextarea ></textarea> -->
+                            <!-- <jodit-editor formControlName="ContentAfter"></jodit-editor> -->
+                            <ckeditor #myEditor formControlName="ContentAfter" [config]="toolbars" [editor]="Editor">
+                            </ckeditor>
+
+                            <p-message severity="error" text="Content After Candidate Details is required" *ngIf="
+                    OrderTemplate.controls.ContentAfter.errors &&
+                    (submitOrder ||
+                        OrderTemplate.controls.ContentAfter.dirty ||
+                        OrderTemplate.controls.ContentAfter.touched)
+                    ">
+                            </p-message>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-3">
+                            <label>Signing Authority</label>
+                        </div>
+                        <div class="col-9">
+                            <textarea type="text" formControlName="SignAuth" class="form-control" [autoResize]="true"
+                                [rows]="6" pInputTextarea> </textarea>
+                            <p-message severity="error" text="Signing Authority is required" *ngIf="
+                    OrderTemplate.controls.SignAuth.errors &&
+                    (submitOrder ||
+                        OrderTemplate.controls.SignAuth.dirty ||
+                        OrderTemplate.controls.SignAuth.touched)
+                    ">
+                            </p-message>
+                        </div>
+                    </div>
+                    <br>
+
+                    <div class="row">
+                        <div class="col-3">
+                            <label>Copy To (நகல்)</label>
+                        </div>
+                        <div class="col-9">
+                            <!-- <textarea type="text" formControlName="copyTo" class="form-control"  [autoResize]="true" [rows]="5" [cols]="30" pInputTextarea ></textarea> -->
+                            <!-- <jodit-editor formControlName="CopyTo"></jodit-editor> -->
+                            <ckeditor #myEditor formControlName="CopyTo" [config]="toolbars" [editor]="Editor">
+                            </ckeditor>
+
+                            <p-message severity="error" text="Copy to is required" *ngIf="
+                    OrderTemplate.controls.CopyTo.errors &&
+                    (submitOrder ||
+                        OrderTemplate.controls.CopyTo.dirty ||
+                        OrderTemplate.controls.CopyTo.touched)
+                    ">
+                            </p-message>
+                        </div>
+                    </div>
+                    <br />
+
+
+                    <!-- <div class="row">
+                <div class="col text-center">
+            <button pButton type="submit" (click)="handleOrderTemplate()" class="ui-button-success" [disabled]="IsOrderCount"
+            >
+                Final Submit</button>
+
+                </div>
+            </div> -->
+                </form>
+            </ng-template>
+        </div>
+    </div>
+
+    <div class="stepdemo-content Counselling" *ngIf="activeIndex == 8">
+        <div class="card p-4">
+            <div class="row" id="printPageButton" >
+                <div class="col">
+                    <b class="fs-6"> Are you sure you want to submit ? </b>
+                </div>
+                <!-- <div class="col text-right">
+                    <button pButton pRipple type="button" (click)="handleConfirmBtn()"
+                    label="Print" class="p-button-danger"></button>
+                </div> -->
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <b>From</b>
+                </div>
+                <div class="col">
+                    {{ this.RowId ? this.counsellingFirstForm.value.FromDate : this.counsellingFirstForm.value.FromDate | date:"dd-MM-yyyy" }} 
+                </div>
+                <div class="col">
+                    <b>To</b>
+                </div>
+                <div class="col">
+                    {{ this.RowId ? this.counsellingFirstForm.value.ToDate : this.counsellingFirstForm.value.ToDate | date:"dd-MM-yyyy" }} 
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col">
+                    <b>Title</b>
+                </div>
+                <div class="col">
+                    {{ this.counsellingFirstForm.value.Title }}
+                </div>
+                <div class="col">
+                    <b>Directorate </b>
+                </div>
+                <div class="col">
+                    {{ this.directorateLabel }}
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col">
+                    <b>Location</b>
+                </div>
+                <div class="col">
+                    {{ this.locationLabel }}
+                </div>
+                <div class="col">
+                    <b>Counselling Type</b>
+                </div>
+                <div class="col">
+                    {{ this.counsellingTypeLabel }}
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col">
+                    <b>Approval Level 1</b>
+                </div>
+                <div class="col">
+                    {{ this.Level1ApproverLabel }}
+                </div>
+                <div class="col">
+                    <b>Approval Level 2</b>
+                </div>
+                <div class="col">
+                    {{ this.Level2ApproverLabel }}
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col-3">
+                    <b>Vacancy Updated By</b>
+                </div>
+                <div class="col-3">
+                    {{ this.VacUpdatedByLabel }}
+                </div>
+                <div class="col-3">
+                    <b>Candidate Updated By</b>
+                </div>
+                <div class="col-3">
+                    {{ this.promotionLabel }}
+                </div>
+            </div>
+            <div class="row mt-2" *ngIf="this.counsellingFirstForm.value.Directorate != '5' && this.counsellingFirstForm.value.Directorate != '4'">
+                <div class="col-3">
+                    <b>School Type</b>
+                </div>
+                <div class="col-3">
+                    {{ this.schType == '1' ? "Government" 
+                    :  this.schType == '2' 
+                        ? "Aided"
+                        : '-' }}
+                </div>
+
+                <div class="col-3" *ngIf="this.schType == '2'">
+                    <b>School Minority Type</b>
+                </div>
+                <div class="col-3" *ngIf="this.schType == '2'">
+                    {{ this.counselling_minority == '1' ? "Minority" 
+                    :  this.counselling_minority == '2' ? "Non-Minority"
+                    :  this.counselling_minority == '3' ? "Opened"
+                        : "-" }}
+                </div>
+
+                <div class="col-3" *ngIf="this.schType == '2'">
+                    <b>Vacancies Minority Type</b>
+                </div>
+                <div class="col-3" *ngIf="this.schType == '2'">
+                    {{ this.vacancy_minority == '1' ? "Minority" 
+                    :  this.vacancy_minority == '2' ? "Non-Minority"
+                    :  this.vacancy_minority == '3' ? "Opened"
+                        : "-" }}
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col">
+                    <p-table #dt [columns]="selectedColumns" responsiveLayout="scroll" [value]="staffList"
+                        [autoLayout]="true" [paginator]="true" [resizableColumns]="true" [rows]="10">
+
+                        <ng-template pTemplate="header" let-columns>
+                            <tr class="student-table-header">
+                                <th>S.No</th>
+                                <th>
+                                    Designation
+                                </th>
+                                <th>Subject</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-stdlist let-rowData let-columns="columns" let-i="rowIndex">
+                            <tr>
+                                <td>{{i+1}}</td>
+                                <td *ngFor="let col of columns" class="ui-resizable-column">
+                                    {{rowData[col.field] ? rowData[col.field] : '-'}}</td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage" let-columns>
+                            <tr>
+                                <td colspan="4" class="text-center">
+                                    <strong>No Records Found </strong>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+                <div class="col">
+                    <p-table [value]="addedPriorityList" styleClass="p-datatable-gridlines" responsiveLayout="scroll">
+                        <ng-template pTemplate="caption" class="student-table-header">
+                            Priority
+                        </ng-template>
+                        <ng-template pTemplate="body" let-priority>
+                            <tr>
+                                <td>
+                                    {{ priority.label }}
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+                    <div class="col">
+                        <p-table [value]="addedSeniorityList" styleClass="p-datatable-gridlines" responsiveLayout="scroll">
+                            <ng-template pTemplate="caption" class="student-table-header">
+                                Seniority Order
+                            </ng-template>
+                            <ng-template pTemplate="body" let-stdlist let-columns="columns" let-i="rowIndex">
+                                <tr>
+                                    <td style="width: 50%;">
+                                        <span *ngIf="stdlist.label">
+                                            {{ stdlist.label }}
+                                        </span>
+                                    </td>
+                                    <td style="width: 50%;">               
+                                        <span *ngIf="stdlist.label">
+                                            {{i + 1}}
+                                        </span>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="emptymessage" let-columns>
+                                <tr>
+                                    <td class="text-center">
+                                        <strong>No Records Found </strong>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+            </div>
+
+            <div class="row mt-2"  *ngIf="this.counsellingFirstForm.value.CounsellingType != 4">
+                <div class="col">
+                    <b *ngIf="isSCERT">Institution Category</b>
+                    <b *ngIf="!isSCERT">School Category</b>
+                </div>
+            </div>
+            <div class="row mt-2" *ngIf="this.counsellingFirstForm.value.CounsellingType != 4">
+                <div class="col">
+                    <p-table [value]="confirmSchCategory" styleClass="p-datatable-gridlines" responsiveLayout="scroll">
+                        <ng-template pTemplate="caption">
+                            Category
+                        </ng-template>
+                        <ng-template pTemplate="body" let-category>
+                            <tr>
+                                <td>
+                                    {{ category.label }}
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+                <div class="col">
+                    <p-table [value]="confirmSchManage" styleClass="p-datatable-gridlines" responsiveLayout="scroll">
+                        <ng-template pTemplate="caption">
+                            Management
+                        </ng-template>
+                        <ng-template pTemplate="body" let-manage>
+                            <tr>
+                                <td>
+                                    {{ manage.label }}
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+                <div class="col">
+                    <p-table [value]="confirmSchPanal" styleClass="p-datatable-gridlines" responsiveLayout="scroll">
+                        <ng-template pTemplate="caption">
+                            Panel
+                        </ng-template>
+                        <ng-template pTemplate="body" let-panel>
+                            <tr>
+                                <td>
+                                    {{ panel.label }}
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+
+
+            <div class="row mt-2">
+                <div class="col">
+                    <b>Vacancy</b>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col">
+                    <p-table [value]="confirmVacCategory" styleClass="p-datatable-gridlines" responsiveLayout="scroll">
+                        <ng-template pTemplate="caption">
+                            Category
+                        </ng-template>
+                        <ng-template pTemplate="body" let-category>
+                            <tr>
+                                <td>
+                                    {{ category.label }}
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+                <div class="col">
+                    <p-table [value]="confirmVacManage" styleClass="p-datatable-gridlines" responsiveLayout="scroll">
+                        <ng-template pTemplate="caption">
+                            Management
+                        </ng-template>
+                        <ng-template pTemplate="body" let-manage>
+                            <tr>
+                                <td>
+                                    {{ manage.label }}
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+                <div class="col">
+                    <p-table [value]="confirmVacPanal" styleClass="p-datatable-gridlines" responsiveLayout="scroll">
+                        <ng-template pTemplate="caption">
+                            Panel
+                        </ng-template>
+                        <ng-template pTemplate="body" let-panel>
+                            <tr>
+                                <td>
+                                    {{ panel.label }}
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+
+            <!-- <ng-template pTemplate="footer"> -->
+            <br>
+            <div class="justify-content-end" id="printPageButton" >
+                <div class="row">
+                    <div class="col-6">
+                        <button pButton pRipple type="button" (click)="previousPage()" icon="pi pi-angle-left"
+                            label="Previous" class="p-button-danger"></button>
+                    </div>
+                    <div class="col-6 text-right">
+
+                        <button pButton pRipple type="button" (click)="confirmationSubmit()" icon="pi pi-angle-right"
+                            iconPos="right" label="Confirm" class="p-button-success"></button>
+
+                    </div>
+                </div>
+            </div>
+            <!-- </ng-template> -->
+
+        </div>
+    </div>
+
+<!-- 
+    <div class="stepsdemo-content" *ngIf="activeIndex==8">
+        <div class="card p-4">
+
+            <form [formGroup]="RcForm">
+
+                <div class="row" *ngIf="rcStaffList.length > 0">
+                    <div class="col-4"></div>
+                    <div class="col-4">
+                        <div class="row">
+                            <div class="col-2 mt-2 text-right">
+                                <label>Subject</label>
+                            </div>
+                            <div class="col">
+                                <p-dropdown formControlName="Subject" [options]="rcStaffList"
+                                    placeholder="Select a subject" [showClear]="true" (onChange)="handleRcStaff()">
+                                </p-dropdown>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4"></div>
+                </div>
+                <br>
+                <br>
+                <div class="row">
+                    <div class="col-1"><label>S.NO</label></div>
+                    <div class="col-2"><label>District</label></div>
+                    <div class="col"><label>RC Number</label></div>
+                    <div class="col"><label>Officer Name</label></div>
+                    <div class="col"><label>Signature</label></div>
+                    <div class="col-1"><label>Action</label></div>
+                </div>
+                <div class="form-group" formArrayName="RC">
+                    <div *ngFor="let item of RC.controls; let i= index">
+                        <div [formGroup]="item">
+                            <div class="row mt-4">
+                                <div class="col-1 mt-2">
+                                    {{i+1}}
+                                </div>
+                                <div class="col-2 mt-2">
+                                    {{item.value.DistrictName}}
+                                </div>
+                                <div class="col">
+                                    <input formControlName="RcNo" placeholder="Enter RC Number" class="form-control"
+                                        type="text" pInputText />
+                                </div>
+                                <div class="col">
+                                    <input formControlName="OtherNme" placeholder="Enter officer name"
+                                        class="form-control" type="text" pInputText />
+                                </div>
+                                <div class="col">
+                                    <!-- formControlName="Sign"
+                                    <input type="file" class="form-control" (change)="onSelectFile($event, i)" />
+                                    <span> <b class="note-title">Note:</b> <i class="note">(Only PNG, JPEG, JPG files
+                                            with a maximum size of 10MB) </i></span>
+                                </div>
+                                <div class="col-1 mt-1">
+                                    <button *ngIf="this.RcForm.value.RC[i].SignatureKey" pButton pRipple type="button"
+                                        icon="pi pi-eye" class="p-button-primary my-1"
+                                        (click)="getUploadedFiles(this.RcForm.value.RC[i].SignatureKey)">
+                                    </button> &nbsp;
+                                    <button pButton pRipple type="button" icon="pi pi-check"
+                                        class="p-button-success my-1" (click)="postRC(this.RcForm.value.RC[i], i)">
+
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6"></div>
+                    <div class="col-6 text-right">
+                        <button type="submit" pButton class="p-button-success" (click)="handleRcSubmit()"> Submit
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+    </div> -->
+
+    <div class="stepsdemo-content Counselling"
+    *ngIf="activeIndex==7 && (this.counsellingFirstForm.value.CounsellingType == 2 || this.counsellingFirstForm.value.CounsellingType == 1 || this.counsellingFirstForm.value.CounsellingType == 9)">
+    <p-card>
+        <ng-template pTemplate="title">
+            <!-- Personal Information -->
+        </ng-template>
+        <ng-template pTemplate="subtitle">
+            <!-- Enter your personal information -->
+        </ng-template>
+        <ng-template pTemplate="content">
+            <div class="Counselling">
+                <p-table #dt responsiveLayout="scroll"
+                [value]="addedSeniorityList" [autoLayout]="true" [paginator]="true" [resizableColumns]="true" [rows]="10">
+    
+                <ng-template pTemplate="header" let-columns>
+                    <tr class="student-table-header">
+                        <th style="width: 50%;">
+                            Order
+                        </th>
+                        <th style="width: 50%;">
+                            Action
+                        </th>
+                        <th class="text-center">Remove</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-stdlist let-columns="columns" let-i="rowIndex">
+                    <tr>
+                        <td style="width: 50%;">
+                            <p-dropdown [options]="orderList" [(ngModel)]="order" appendTo="body"
+                                *ngIf="stdlist.label == ''" placeholder="Select.."
+                                [showClear]="true"></p-dropdown>
+                            <span *ngIf="stdlist.label">
+                                {{ stdlist.label }}
+                            </span>
+                        </td>
+                        <td style="width: 50%;">
+                            <button pButton pRipple type="button" (click)="addOneMoreSeniority(i)"
+                                icon="pi pi-plus" *ngIf="stdlist.label == ''" label="Add"
+                                class="p-button-success mt-2"></button>
+    
+                            <span *ngIf="stdlist.label">
+                                {{i + 1}}
+                            </span>
+                        </td>
+                        <td class="text-center"><i
+                                class="pi pi-times-circle text-danger cursor-pointer fs-5"
+                                (click)="removeSeniorityList(i, stdlist)" *ngIf="stdlist.label"></i> </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage" let-columns>
+                    <tr>
+                        <td colspan="3" class="text-center">
+                            <strong>No Records Found </strong>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+</div>
+        </ng-template>
+
+        <ng-template pTemplate="footer">
+            <div class="justify-content-end">
+                <div class="row">
+                    <div class="col-6">
+                        <button pButton pRipple type="button" (click)="previousPage()" icon="pi pi-angle-left"
+                            label="Previous" class="p-button-danger"></button>
+                    </div>
+                    <div class="col-6 text-right">
+                        <button pButton pRipple type="button" (click)="senioritySubmit()" icon="pi pi-angle-right"
+                            label="Next" class="p-button-success" iconPos="right"></button>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+    </p-card>
+</div>
+
+    <div class="stepsdemo-content" *ngIf="activeIndex==7 && this.counsellingFirstForm.value.CounsellingType != 2 && this.counsellingFirstForm.value.CounsellingType != 1 && this.counsellingFirstForm.value.CounsellingType != 9">
+        <p-card>
+            <div class="row">
+                <div class="col">
+                    <b>
+                        No Seniority Order
+                    </b>
+                </div>
+            </div>
+            <br>
+            <div class="justify-content-end">
+                <div class="row">
+                    <div class="col-6">
+
+                        <button pButton pRipple type="button" (click)="previousPage()" icon="pi pi-angle-left"
+                            label="Previous" class="p-button-danger"></button>
+                    </div>
+                    <div class="col-6 text-right">
+
+
+                        <button pButton pRipple type="button" (click)="nextPage()" icon="pi pi-angle-right"
+                            iconPos="right" label="Next" class="p-button-success"></button>
+
+                    </div>
+                </div>
+            </div>
+        </p-card>
+    </div>
+
+</div>
+
+<p-dialog appendTo="body" [modal]="true" [header]="this.startStopHeading" [(visible)]="startStopModal"  [closable]="false"
+    [draggable]="false">
+    <div class="row mt-4">
+        <div class="col">
+            <label> {{ this.startStopContent }}</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 text-right">
+            <button pButton type="button" (click)="handleConfirm()" class="ui-button-success">
+                Yes
+            </button> &nbsp;
+            <button pButton type="button" (click)="handelCancel()" class="ui-button-danger">
+                No
+            </button>
+        </div>
+    </div>
+</p-dialog>
+
+<p-dialog header="Signature" [modal]="true" appendTo="body" [(visible)]="viewImageModal" [draggable]="false">
+    <div>
+        <img src={{this.photoUrl}} width="100%" height="100%" />
+    </div>
+</p-dialog>
+
+<p-dialog header="New Priority" [modal]="true" appendTo="body" [(visible)]="priorityModal" [draggable]="false" >
+    <div class="row">
+        <div class="col-4">
+            <label>Priority</label>
+            <input [(ngModel)]="newPriority" placeholder="Enter priority.." class="form-control tamil" type="text"
+                pInputText />
+        </div>
+    </div>
+    <br>
+
+    <div class="row">
+        <div class="col-12 text-right">
+            <button pButton type="button" (click)="handleAddNewPriority()" class="ui-button-success">
+                Add
+            </button> &nbsp;
+            <button pButton type="button" (click)="handlePriorityCancel()" class="ui-button-danger">
+                Cancel
+            </button>
+        </div>
+    </div>
+</p-dialog>
+
+<p-dialog appendTo="body" [modal]="true" header="Order Copy Preview" [(visible)]="previewModal">
+    <div class="total-style">
+        <div class="card mt-2 tc p-4 bg-tnlogo">
+            <!-- <img alt="bg-img" src="../../../../assets/images/tnlogobg.jpg" /> -->
+            <div class="row">
+                <div class="col-12 text-center pt-3 printUI">
+
+                    <div [innerHTML]="this.OrderTemplate.value.Header">
+                        <br />
+                    </div>
+
+                </div>
+                <!-- <div class="col-2 text-right">
+                    <img class="image-style" src="../../../../assets/images/TnLogo.png">
+                </div> -->
+            </div>
+
+            <br>
+            <!--********* Reference *********-->
+            <div class="row">
+
+
+                <div class="col-12 printUI">
+                    <table>
+                        <tr>
+                            <td><b>பொருள்</b></td>
+                            <td>
+                                <div [innerHTML]="this.OrderTemplate.value.Reference">
+                                    <br />
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>பார்வை</b></td>
+                            <td style="text-align: left;">
+                                <div [innerHTML]="this.OrderTemplate.value.Reference2">
+                                    <br />
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+            </div>
+
+
+            <div class="row">
+                <div class="col text-center">
+                    *****
+                </div>
+            </div>
+            <br>
+
+            <!-- Before Candidate Details Content -->
+            <div class="row">
+
+                <div class="col-12 pt-3 printUI">
+
+                    <div [innerHTML]="this.OrderTemplate.value.ContentBefore">
+                        <br />
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <table class="width-table">
+                        <tr>
+                            <td>குறிப்பு எண்</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>எமிஸ் எண்</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>ஆசிரியர் எண்</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>பெயர்</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>மூப்பு எண்</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>தற்போதைய பதவி & பாடம்</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>தற்போது பணிபுரியும் பள்ளியின் பெயர், UDISE, தொகுதி, மாவட்டம் </td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>மாறுதல் செய்யப்படும் பதவி & பாடம்</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>மாறுதல் செய்யப்படும் பள்ளியின் பெயர், UDISE, தொகுதி, மற்றும் மாவட்டம்</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>முன்னுரிமை</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>இடுகை வகை</td>
+                            <td>-</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+
+            <!-- After Candidate Details Content -->
+            <div class="row">
+
+                <div class="col-12 pt-3 printUI">
+
+                    <div [innerHTML]="this.OrderTemplate.value.ContentAfter">
+                        <br />
+                    </div>
+
+                </div>
+            </div>
+
+
+            <!-- Signature Authority -->
+            <div class="row">
+
+                <div class="col-12 text-right pt-3 printUI">
+
+                    <div [innerHTML]="this.OrderTemplate.value.SignAuth">
+                        <br />
+                    </div>
+
+                </div>
+            </div>
+
+
+            <!-- Copy To -->
+            <div class="row">
+
+                <div class="col-12 pt-3 printUI">
+
+                    <div [innerHTML]="this.OrderTemplate.value.CopyTo">
+                        <br />
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <br>
+
+    <div class="row">
+        <div class="col-12 text-right">
+
+            <button pButton type="button" (click)="handleClose()" class="ui-button-danger">
+                Close
+            </button>
+        </div>
+    </div>
+</p-dialog>
+
+<p-dialog appendTo="body" [modal]="true" header="Settings" [(visible)]="settingModal"  
+    [draggable]="false">
+    <div class="row mt-4">
+        <div class="col-sm-6 col-md-6 col-lg-3 col-xl-3">
+            <label> Application Status
+            </label>
+        </div>
+        <div class="col-sm-6 col-md-6 col-lg-3 col-xl-3">
+            <p-inputSwitch [(ngModel)]="ApplicationStatus"
+            ></p-inputSwitch>
+            <!-- (onChange)="stopStartBtn(rowData, i, 'form')" -->
+        </div>
+
+        <div *ngIf="settingRowData?.CounsellingType != 'Mutual Transfer'" class="col-sm-6 col-md-6 col-lg-3 col-xl-3">
+            <label> Vacancy Publish</label>
+        </div>
+        <div *ngIf="settingRowData?.CounsellingType != 'Mutual Transfer'" class="col-sm-6 col-md-6 col-lg-3 col-xl-3">
+            <p-inputSwitch [(ngModel)]="VacanyPublish"
+            ></p-inputSwitch>
+        </div>
+
+    </div>
+    <div *ngIf="settingRowData?.CounsellingType != 'Mutual Transfer'">
+
+    <div class="row mt-4">
+        <div class="col-sm-6 col-md-6 col-lg-3 col-xl-3">
+            <label> Seniority Publish</label>
+        </div>
+        <div class="col-sm-6 col-md-6 col-lg-3 col-xl-3">
+            <p-inputSwitch [(ngModel)]="SeniorityPublish"
+            ></p-inputSwitch>
+        </div>
+
+        <div class="col-sm-6 col-md-6 col-lg-3 col-xl-3">
+            <label> Vacancies Challenge </label>
+        </div>
+        <div class="col-sm-6 col-md-6 col-lg-3 col-xl-3">
+            <p-inputSwitch [(ngModel)]="VacancyChallenge"
+            ></p-inputSwitch>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-sm-6 col-md-6 col-lg-3 col-xl-3">
+            <label> Seniority Challenge </label>
+        </div>
+        <div class="col-sm-6 col-md-6 col-lg-3 col-xl-3">
+            <p-inputSwitch [(ngModel)]="SeniorityChallenge"
+            ></p-inputSwitch>
+        </div>
+
+        <div class="col-sm-6 col-md-6 col-lg-3 col-xl-3">
+            <label> Pre-select Vacancies </label>
+        </div>
+        <div class="col-sm-6 col-md-6 col-lg-3 col-xl-3">
+            <p-inputSwitch [(ngModel)]="PreSelectVacancies"
+            ></p-inputSwitch>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-sm-6 col-md-6 col-lg-3 col-xl-3">
+            <label> Update Candidate </label>
+        </div>
+        <div class="col-sm-6 col-md-6 col-lg-3 col-xl-3">
+            <p-inputSwitch [(ngModel)]="UpdateCandidate"
+            ></p-inputSwitch>
+        </div>
+
+        <div class="col-sm-6 col-md-6 col-lg-3 col-xl-3">
+            <label> Update Vacancy</label>
+        </div>
+        <div class="col-sm-6 col-md-6 col-lg-3 col-xl-3">
+            <p-inputSwitch [(ngModel)]="VacUptSts"
+            ></p-inputSwitch>
+        </div>
+    </div>
+    
+    <div class="row mt-4">
+        <div class="col-sm-6 col-md-6 col-lg-3 col-xl-3">
+            <label>  Same District </label>
+        </div>
+        <div class="col-sm-6 col-md-6 col-lg-3 col-xl-3">
+            <p-inputSwitch [(ngModel)]="same_district_sts"
+            ></p-inputSwitch>
+        </div>
+
+        <div class="col-sm-6 col-md-6 col-lg-3 col-xl-3">
+            <label>Is Willing </label>
+        </div>
+        <div class="col-sm-6 col-md-6 col-lg-3 col-xl-3">
+            <p-inputSwitch [(ngModel)]="willing_sts"
+            ></p-inputSwitch>
+        </div>
+    </div>
+</div>
+
+    <div class="row">
+        <div class="col-12 text-right">
+            <button pButton type="button" (click)="handleSettingSubmit()" class="ui-button-success">
+                Submit
+            </button> &nbsp;
+            <button pButton type="button" (click)="handleSettingClose()" class="ui-button-danger">
+                Cancel
+            </button>
+        </div>
+    </div>
+
+</p-dialog>

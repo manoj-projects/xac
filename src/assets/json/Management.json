@@ -1,0 +1,66 @@
+{"Management":
+[
+    {
+        "id": "1",
+      "label": "School Education Department School"
+    },
+    {
+        "id": "2",
+      "label": "Corporation School"
+    },
+    {
+        "id": "3",
+      "label": "Municipal School"
+    },
+    {
+        "id": "4",
+      "label": "Adi-Dravida Welfare School"
+    },
+    {
+        "id": "5",
+      "label": "Forest Department School"
+    },
+    {
+        "id": "6",
+      "label": "Differently Abled Welfare Department School"
+    },
+    {
+        "id": "7",
+      "label": "Kallar BC/MBC Department School"
+    },
+    {
+        "id": "9",
+      "label": "Tribal Welfare School"
+    },
+  {
+        "id": "31",
+      "label": "Borstal School (Social Defence Dept)"
+    },
+    {
+        "id": "32",
+      "label": "Kasturba Gandhi Balika Vidhyalaya (KGBV)"
+    },
+    {
+        "id": "36",
+      "label": "Residential-Access School"
+    }
+],
+"OfficeManagement":[
+  { "id":"10", "label": "Aranilayam HR & CE Department School" },
+  { "id":"13", "label": "Fully Aided School" },
+  { "id":"14", "label": "Partly Aided School" },
+  { "id":"17", "label": "Oriental (Fully Aided) Sanskrit School" },
+  { "id":"18", "label": "Oriental (Partly Aided) Sanskrit School" },
+  { "id":"19", "label": "Oriental (Fully Aided) Arabic School" },
+  { "id":"20", "label": "Oriental (Partly Aided) Arabic School" },
+  { "id":"21", "label": "Differently Abled Welfare Department Aided School" }
+],
+
+"SCERTManagement":[
+ { "id": "6", "label": "SCERT" },
+ { "id": "7", "label": "DIET" },
+ { "id": "8", "label": "GTTI" },
+ { "id": "9", "label": "BITE" }
+]
+}
+

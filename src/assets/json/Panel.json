@@ -1,0 +1,30 @@
+{"Panel":
+[
+    {
+        "id": "16",
+      "label": "General (Tamil & English)"
+    },
+    {
+        "id": "18",
+      "label": "Urdu"
+    },
+    {
+        "id": "5",
+      "label": "Kannada"
+    },
+    {
+        "id": "8",
+      "label": "Malayalam"
+    },
+    {
+        "id": "17",
+      "label": "Telugu"
+    }
+],
+"ScertPanel":[
+  {
+      "id": "16",
+    "label": "General (Tamil & English)"
+  }
+]
+}

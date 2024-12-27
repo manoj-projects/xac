@@ -1,0 +1,33 @@
+label{
+    font-weight: 500;
+    color: var(--counselling-primary);
+}
+.note{
+    font-size: smaller;
+    color: green;
+}
+.note-title{
+    color: rgb(192, 2, 2);
+}
+table, td {
+    border: 1px solid black;
+    text-align: center;
+    padding: 5px;
+}
+.width-table{
+    width: 100%;
+}
+.span-font{
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+}
+.cusDropDown2::ng-deep .p-dropdown {
+    width: 50rem !important;
+  }
+
+  @media print {
+    #printPageButton {
+        display: none;
+    }
+}

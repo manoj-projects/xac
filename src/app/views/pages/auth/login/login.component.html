@@ -1,0 +1,153 @@
+<div class="row text-center">
+  <div class="col-md-1 col-xl-2"></div>
+  <!-- <div class="col-md-9 col-xl-7"> -->
+    <div>
+    <div class="card">
+      <div class="row">
+        <div class="col-md-6 pe-md-0 sideImg">
+          <img src="../../../../../assets/images/others/robert-image.jpg">
+        </div>
+        <div class="col-md-6 ps-md-0 login-center">
+          <div class="auth-form-wrapper px-4 mt-4">
+            <!-- <div class="tnLogo text-center"><img src="../../../../../assets/images/TnLogo.png"> </div> -->
+            <span class="nobleui-logo d-block mb-2">Xackathon</span>
+            <!-- <span >Flood</span> -->
+            <form name="loginForm" [formGroup]="loginForm" class="forms-sample" *ngIf="showLoginForm">
+              <div class="mb-2 mt-2 text-start">
+                <label class="inMandatory">User Name</label>
+                <input type="text" class="form-control" formControlName="userName"
+                  placeholder="Username" autocomplete="off" avoidscripttags>
+                <span class="form-text text-danger" style="font-size: 13px;"
+                  *ngIf="!loginForm.get('userName').valid && (loginForm.get('userName').dirty || loginForm.get('userName').touched)">
+                  Username is required
+                </span>
+              </div>
+              <div class="text-start">
+                <label for="exampleInputPassword1" class="inMandatory">Password</label><br>
+                <span class="p-input-icon-right">
+                  <input [type]="IsShow ? 'password' : 'text'" class="form-control" formControlName="password"
+                    id="exampleInputPassword1" autocomplete="current-password" placeholder="Password" autocomplete="off"
+                    avoidscripttags>
+                  <i *ngIf="IsShow" (click)="eyeClick()" class="pi pi-eye"></i>
+                  <i *ngIf="!IsShow" (click)="eyeClick()" class="pi pi-eye-slash"></i>
+                </span>
+                <span class="form-text text-danger" style="font-size: 13px;"
+                *ngIf="!loginForm.get('password').valid && (loginForm.get('password').dirty || loginForm.get('password').touched)">
+                Password is required
+              </span>
+              </div>
+              <div class="text-center mt-4 testalign">
+                <button type="submit" class="btn btn-primary me-2 mb-2 mb-md-0" (click)="onLogin()">Login</button>
+                <!-- <button type="submit" class="btn btn-primary me-2 mb-2 mb-md-0" (click)="onForget()">Forgot Password</button> -->
+                <!-- <a class="mr-1 forget mt-8" (click)="onForget()">Forgotten Password</a> -->
+              </div>
+            </form>
+            <form name="forgetForm" [formGroup]="forgetForm" class="forms-sample" *ngIf="showForgetForm">
+              <div class="form-group row mt-2 text-start">
+                <label class="inMandatory">Please Select Your User Type</label>
+                  <span class="p-input-icon-right">
+                    <!-- <p-selectButton [options]="stateOptions" class="pselectbut" [(ngModel)]="value1" formControlName="userType" optionLabel="label" optionValue="value"></p-selectButton> -->
+                    <p-dropdown [options]="stateOptions" placeholder="UserType" (onChange)="userTypeChange($event.value)" styleClass="dropdwnvalues" [(ngModel)]="value1" formControlName="userType" optionLabel="label" optionValue="value" class="pselectbut">
+                    </p-dropdown>
+                  </span>
+                <span class="form-text text-danger" style="font-size: 13px;"
+                *ngIf="!forgetForm.get('userType').valid && (forgetForm.get('userType').dirty || forgetForm.get('userType').touched)">
+                Usertype is required
+              </span>
+              </div>
+              <div class="mb-2 text-start" *ngIf="hideUserNM && hidedigit11">
+                <label class="inMandatory">User Name</label>
+                <input type="text" class="form-control" formControlName="userName" style="height: 50px;"
+                  placeholder="Username" autocomplete="off" avoidscripttags>
+                <span class="form-text text-danger" style="font-size: 13px;"
+                  *ngIf="!forgetForm.get('userName').valid && (forgetForm.get('userName').dirty || forgetForm.get('userName').touched) || forgetForm.get('userName').pattern">
+                  Invalid Pattern Limit 11 digits
+                </span>
+              </div>
+              <div class="mb-2 text-start" *ngIf="hideUserNM && hidedigit8">
+                <label class="inMandatory">User Name</label>
+                <input type="text" class="form-control" formControlName="userName" style="height: 50px;"
+                  placeholder="Username" autocomplete="off" avoidscripttags>
+                <span class="form-text text-danger" style="font-size: 13px;"
+                  *ngIf="!forgetForm.get('userName').valid && (forgetForm.get('userName').dirty || forgetForm.get('userName').touched) || forgetForm.get('userName').pattern">
+                  Invalid Pattern Limit 8 digits
+                </span>
+              </div>
+              <div class="mb-2 text-start" *ngIf="hideUserNM">
+                <p>Your Password will be sent to your registered mail-Id when <br> approved by your BRTE / Block co-ordinator. Do you want to submit your "Forgot Password" request?</p>
+              </div>
+              <div class="text-center mt-2" *ngIf="hideUserNM">
+                <button type="submit" class="btn btn-primary me-2 mb-2 mb-md-0" (click)="showLogin()">Submit Request</button>
+                <button type="submit" class="btn btn-primary me-2 mb-2 mb-md-0" (click)="onLoginPage()" >Back to Login</button>
+              </div>
+            </form>
+            <div class="mb-8 mt-8 text-start" >
+              <p *ngIf="successHide">Your request has been sent successfully pleace contact <br> your  BRTE / Block co-ordinator and to receive the password</p>
+              <h6 *ngIf="successHide" class="text-center">Thank You</h6>
+              <div class="text-center mt-2" *ngIf="backtoLogin">
+                <button type="submit" class="btn btn-primary me-2 mb-2 mb-md-0" (click)="onLoginPage()" >Back to Login</button>
+              </div>
+            </div>
+            <!-- <div class="mt-4 text-center mailImg"><img src="../../../../../assets/icons/mail.svg"> &nbsp;<a
+                href="mailto:enquire.tnemis@gmail.com">enquire.tnemis@gmail.com</a></div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- <div class="login-footer1 mt-4">
+  <div class="content clearfix mx-3 my-2">
+    <div id="FooterMenu1_Footermenu1" style="text-align:center;">
+      <a href="https://tnschools.gov.in/" target="_blank">About us</a> ||
+      <a href="https://cmhelpline.tnega.org/portal/en/home" target="_blank">Grievences/Complaints</a> ||
+      <a href="http://cca.gov.in/index.php" target="_blank"> How to avail Electronic/Digital Signature facility</a> ||
+      <a (click)="PrivacyPolicy()"> Privacy Policy</a> ||
+      <a href="https://www.tn.gov.in/documents/dept/17" target="_blank"> Cyber Resilence</a> ||
+      <a (click)="eGovernment()"> About TN School Education Department </a>
+    </div>
+    <p style="text-align:center;" class="focus-link" tabindex="0">
+      Last Update : {{this.minDate | date:"dd-MM-yyyy"}} | <strong>E-mail: </strong><a
+        href="mailto:enquire.tnemis@gmail.com">enquire.tnemis@gmail.com</a> </p>
+    <div class="text-center mb-2">
+      <a>
+        <img style=" height: 30px; width: 50px;" class="img-fluid" src="assets/images/wc.jpeg" alt="W3CWAI Web image" />
+      </a>
+    </div>
+  </div>
+
+  <div class="login-footer2">
+    <div class="content clearfix mx-3 my-2">
+      <div class="row text-center">
+        <div class="col-md-2 col-sm-12 mt-2">
+          <div class="sub-footer-data">
+            <img class="img-fluid" src="assets/images/emis_logo_1.png">
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-12 mt-3 text-center">
+          <div class="copy">
+            <p>
+              Copyright © This is the official website of EMIS, School Education Department, Government of Tamil Nadu, India All Rights Reserved.
+            </p>
+          </div>
+        </div>
+        <div class="col-md-2 col-sm-12 mt-1">
+          <div class="socila-icons">
+            <ul class="float-right">
+              <li><a href="https://www.facebook.com/EMIS-Tamilnadu-Info-788395421347426/"><img class="img-fluid"
+                    src="assets/images/face.svg" alt=""></a></li>
+              <li><a href="https://twitter.com/emis_tamilnadu"><img class="img-fluid" src="assets/images/twit.svg"
+                    alt=""></a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-2 col-sm-12 my-2">
+          <div class="float-right text-center">
+            <button pButton pRipple type="button" label="Download Forms" class="p-button-outlined"
+              (click)="downloadMyFile()"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->

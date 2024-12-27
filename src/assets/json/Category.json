@@ -1,0 +1,53 @@
+
+{"Category":
+[
+    {
+        "id": "2",
+      "label": "Primary"
+    },
+    {
+        "id": "3",
+      "label": "Upper Primary"
+    },
+    {
+        "id": "4",
+      "label": "High School"
+    },
+    {
+        "id": "5",
+      "label": "Higher Secondary"
+    },
+    {
+        "id": "6",
+      "label": "Office"
+    }
+],
+"SCERTCategory":[
+  {
+      "id": "6",
+    "label": "Office"
+  }
+],
+"SeniorityOrderList":
+[
+  { "label": "Priority", "value": "6", "OrderKey":"priorityOrder" },
+  { "label": "Date of Joining - School", "value": "7", "OrderKey":"sctl.doj_pr_schol" },
+  { "label": "Date of Joining - Post", "value": "8", "OrderKey":"sctl.doj_pr" },
+  { "label": "Date of Appointment", "value": "9", "OrderKey":"sctl.date_appointment" },
+  { "label": "Date of joining - Block", "value": "10", "OrderKey":"sctl.doj_block" },
+  { "label": "Date of Birth", "value": "11", "OrderKey":"sctl.dob" },
+  { "label": "Date of Regularisation", "value": "12", "OrderKey":"sctl.doj_dept" },
+  { "label": "Name", "value": "13", "OrderKey":"sctl.name" }
+],
+"ScertSeniorityOrderList":
+[
+  { "label": "Priority", "value": "6", "OrderKey":"priorityOrder" },
+  { "label": "Date of Joining - Present Institution", "value": "7", "OrderKey":"sctl.doj_pr_schol" },
+  { "label": "Date of Joining - Post", "value": "8", "OrderKey":"sctl.doj_pr" },
+  { "label": "Date of Appointment", "value": "9", "OrderKey":"sctl.date_appointment" },
+  { "label": "Date of Birth", "value": "11", "OrderKey":"sctl.dob" },
+  { "label": "Date of Regularisation", "value": "12", "OrderKey":"sctl.doj_dept" },
+  { "label": "Name", "value": "13", "OrderKey":"sctl.name" }
+]
+
+}

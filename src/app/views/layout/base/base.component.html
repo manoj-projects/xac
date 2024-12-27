@@ -1,0 +1,39 @@
+<div class="main-wrapper">
+
+  <!-- partial:navbar -->
+  <app-navbar></app-navbar>
+  <!-- partial -->
+
+  <div class="page-wrapper">
+
+    <div class="page-content">
+
+      <!-- Spinner for lazyload modules -->
+      <div *ngIf="isLoading" class="spinner-wrapper">
+        <div class="spinner">Loading...</div>
+      </div>
+
+      <div contentAnimate *ngIf="!isLoading">
+        <router-outlet>
+          <p-dialog header="Warning!" [(visible)]="displayModal" [modal]="true" [draggable]="false" [resizable]="false"
+          appendTo="body">
+          <br>
+          <div class="text-center">There is no activity for nearly 30 minutes. You will be logged out automatically in</div>
+          <div class="text-center"><span class="countClass">{{idleState}}</span><span>&nbsp; seconds.</span></div>
+          <ng-template pTemplate="footer">
+            <p-button (click)="displayModal=false" label="Cancel" styleClass="p-button-text"></p-button>
+          </ng-template>
+        </p-dialog>
+        </router-outlet>
+      </div>
+
+    </div>
+
+    <!-- partial:footer -->
+    <app-footer></app-footer>
+    <!-- partial -->
+
+  </div>
+
+
+</div>

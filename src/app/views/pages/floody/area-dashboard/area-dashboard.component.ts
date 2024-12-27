@@ -8,33 +8,104 @@ import * as L from 'leaflet';
   styleUrls: ['./area-dashboard.component.scss']
 })
 export class AreaDashboardComponent implements OnInit {
-  // private map;
+  private map;
+
+  locations: any = [];
 
   constructor(
   ) { }
 
   ngOnInit(): void {
-    // this.initMap();
+    this.locations = [
+      {
+        "area": "Adyar",
+        "latitude": 13.0012,
+        "longitude": 80.2565,
+        "status": 1
+      },
+      {
+        "area": "Anna Nagar",
+        "latitude": 13.0850,
+        "longitude": 80.2101,
+        "status": 1
+      },
+      {
+        "area": "Besant Nagar",
+        "latitude": 13.0003,
+        "longitude": 80.2667,
+        "status": 2
+      },
+      {
+        "area": "Egmore",
+        "latitude": 13.0732,
+        "longitude": 80.2609,
+        "status": 2
+      },
+      {
+        "area": "Guindy",
+        "latitude": 13.0102,
+        "longitude": 80.2157,
+        "status": 1
+      },
+      {
+        "area": "Kodambakkam",
+        "latitude": 13.0527,
+        "longitude": 80.2212,
+        "status": 1
+      },
+      {
+        "area": "Mylapore",
+        "latitude": 13.0368,
+        "longitude": 80.2676,
+        "status": 2
+      },
+      {
+        "area": "Nungambakkam",
+        "latitude": 13.0604,
+        "longitude": 80.2406,
+        "status": 2
+      },
+      {
+        "area": "T. Nagar (Thyagaraya Nagar)",
+        "latitude": 13.0418,
+        "longitude": 80.2341,
+        "status": 2
+      },
+      {
+        "area": "Velachery",
+        "latitude": 12.9815,
+        "longitude": 80.2180,
+        "status": 1
+      }
+    ];
+    this.initMap();
     this.waterLevelHumanChart();
-
-//     var map = L.map('map').setView([51.505, -0.09], 13);
-
-// L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-//     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-// }).addTo(map);
-
-// L.marker([51.5, -0.09]).addTo(map)
-//     .bindPopup('A pretty CSS popup.<br> Easily customizable.')
-//     .openPopup();
-
   }
 
-  // private initMap(): void {
-  //   this.map = L.map('map', {
-  //     center: [ 12.9755, 80.2207 ],
-  //     zoom: 3
-  //   });
-  // }
+  private initMap(): void {
+    this.map = L.map('map').setView([13.0827, 80.2707], 12); // Chennai center coordinates
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '© OpenStreetMap contributors',
+    }).addTo(this.map);
+    this.addMarkers();
+  }
+
+  private addMarkers(): void {
+    this.locations.forEach((location) => {
+      let imgUrl = location.status==2?'../../../../../assets/icons/sea-level.png':'../../../../../assets/icons/surveillance.png';
+      const customIcon = L.icon({
+        iconUrl: imgUrl, // Replace with your icon path
+        iconSize: [40, 40], // Adjust size as needed
+        iconAnchor: [16, 32], // Anchor point
+        popupAnchor: [0, -32], // Popup anchor point
+      });
+      L.marker([location.latitude, location.longitude], { icon: customIcon })
+        .addTo(this.map!)
+        .bindPopup(`<b>${location.area}</b>`) // Add a popup with the location name
+        .openPopup();
+    });
+  }
 
   waterLevelHumanChart() {
 
@@ -79,7 +150,7 @@ export class AreaDashboardComponent implements OnInit {
       ]
     };
     myChart.setOption({
-    // option = {
+      // option = {
       tooltip: {},
       legend: {
         data: ['typeA', 'typeB'],
@@ -198,7 +269,7 @@ export class AreaDashboardComponent implements OnInit {
           ]
         }
       ]
-    // };
+      // };
     })
   }
 }

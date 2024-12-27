@@ -65,8 +65,8 @@ export class LoginComponent implements OnInit {
 
   initializeValidators() {
     this.loginForm = new FormGroup({
-      userName: new FormControl('', [Validators.required]),
-      password: new FormControl('', [Validators.required]),
+      userName: new FormControl('33020700907', [Validators.required]),
+      password: new FormControl('test@123', [Validators.required]),
     });
     this.forgetForm = new FormGroup({
       userName: new FormControl('', [Validators.required]),

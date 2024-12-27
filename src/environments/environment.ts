@@ -24,7 +24,7 @@ export const environment = {
   // For Node URL Staging
   apiBaseUrl: "http://13.126.113.175:3000",
   // apiBaseUrl: "http://localhost:3000",
-  loginApiBaseUrl: "https://tng2c2.tnschools.gov.in/emis_login/api/elogin",
+  loginApiBaseUrl: "https://tng2c2.tnschools.gov.in/emis_login/api/login",
 
   // production live Node URL
   // loginApiBaseUrl: 'https://emislogin.tnschools.gov.in/emis_login/api/elogin',

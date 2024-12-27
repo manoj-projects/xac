@@ -21,61 +21,71 @@ export class AreaDashboardComponent implements OnInit {
         "area": "Adyar",
         "latitude": 13.0012,
         "longitude": 80.2565,
-        "status": 1
+        "status": 1,
+        "watLvl": 0
       },
       {
         "area": "Anna Nagar",
         "latitude": 13.0850,
         "longitude": 80.2101,
-        "status": 1
+        "status": 1,
+        "watLvl": 0
       },
       {
         "area": "Besant Nagar",
         "latitude": 13.0003,
         "longitude": 80.2667,
-        "status": 2
+        "status": 2,
+        "watLvl": 10
       },
       {
         "area": "Egmore",
         "latitude": 13.0732,
         "longitude": 80.2609,
-        "status": 2
+        "status": 2,
+        "watLvl": 30
       },
       {
         "area": "Guindy",
         "latitude": 13.0102,
         "longitude": 80.2157,
-        "status": 1
+        "status": 1,
+        "watLvl": 0
       },
       {
         "area": "Kodambakkam",
         "latitude": 13.0527,
         "longitude": 80.2212,
-        "status": 1
+        "status": 1,
+        "watLvl": 0
       },
       {
         "area": "Mylapore",
         "latitude": 13.0368,
         "longitude": 80.2676,
-        "status": 2
+        "status": 2,
+        "watLvl": 50
       },
       {
         "area": "Nungambakkam",
         "latitude": 13.0604,
         "longitude": 80.2406,
-        "status": 2
+        "status": 2,
+        "watLvl": 80
       },
       {
         "area": "T. Nagar (Thyagaraya Nagar)",
         "latitude": 13.0418,
         "longitude": 80.2341,
-        "status": 2
+        "status": 2,
+        "watLvl": 0
       },
       {
         "area": "Velachery",
         "latitude": 12.9815,
         "longitude": 80.2180,
-        "status": 1
+        "status": 2,
+        "watLvl": 200
       }
     ];
     this.initMap();
@@ -93,7 +103,7 @@ export class AreaDashboardComponent implements OnInit {
 
   private addMarkers(): void {
     this.locations.forEach((location) => {
-      let imgUrl = location.status==2?'../../../../../assets/icons/sea-level.png':'../../../../../assets/icons/surveillance.png';
+      let imgUrl = location.status == 2 ? '../../../../../assets/icons/sea-level.png' : '../../../../../assets/icons/surveillance.png';
       const customIcon = L.icon({
         iconUrl: imgUrl, // Replace with your icon path
         iconSize: [40, 40], // Adjust size as needed
@@ -102,7 +112,22 @@ export class AreaDashboardComponent implements OnInit {
       });
       L.marker([location.latitude, location.longitude], { icon: customIcon })
         .addTo(this.map!)
-        .bindPopup(`<b>${location.area}</b>`) // Add a popup with the location name
+        .bindPopup(`
+          <div style="position: relative;z-index: 1;text-align: center;padding: 2px">
+          ${location.area}
+          ${location.watLvl > 0 ?
+            `<div style="position:absolute;bottom: 0;left: 0;width: 100%;height: ${location.watLvl < 100 ? location.watLvl : 100}%;z-index: 2;background-color: ${this.calcBgColor(location.watLvl)};"></div>
+        <img style="height: 50px;width: 50px;object-fit: contain;" src="../../../../../assets/icons/standingMan.png" alt="" srcset="">`
+            :
+            '<div></div>'
+          }
+    </div>
+          
+         `)
+        // .bindTooltip(location.area, {
+        //   permanent: true, // Tooltip shows on hover
+        //   direction: 'top', // Position tooltip on top
+        // }) // Add a popup with the location name
         .openPopup();
     });
   }
@@ -271,5 +296,15 @@ export class AreaDashboardComponent implements OnInit {
       ]
       // };
     })
+  };
+
+  calcBgColor(val) {
+    let colr = '#0080004a';
+    if (val > 20 && val < 40) {
+      colr = '#ffa5006b';
+    } else if (val >= 40) {
+      colr = '#ff00008a';
+    }
+    return colr;
   }
 }

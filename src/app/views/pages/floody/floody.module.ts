@@ -37,6 +37,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 // import { FloodyComponent } from './floody.component';
 import { FloodyService } from './floody.service';
 import { AreaDashboardComponent } from './area-dashboard/area-dashboard.component';
+import { FloodDashboardComponent } from './flood-dashboard/flood-dashboard.component';
 
   const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     suppressScrollX: true
@@ -51,13 +52,18 @@ import { AreaDashboardComponent } from './area-dashboard/area-dashboard.componen
             path: 'area-dashboard',
             component: AreaDashboardComponent
         },
+        {
+          path: 'flood-dashboard',
+          component: FloodDashboardComponent
+      },
       ]
  }
 ]
 @NgModule({
   declarations: [
     // FloodyComponent,
-    AreaDashboardComponent
+    AreaDashboardComponent,
+    FloodDashboardComponent
   ],
   imports: [
     CommonModule,

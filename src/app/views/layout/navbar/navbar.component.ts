@@ -96,9 +96,13 @@ export class NavbarComponent implements OnInit {
       //   link: '/counselling/dashboard',
       // },
       {
+        label: 'Dashboard',
+        link: '/floody/flood-dashboard'
+      },
+      {
         label: 'Flood Alert',
         link: '/floody/area-dashboard'
-      }
+      },
         ]
 
       this.menuItems = this.ADMINMENU

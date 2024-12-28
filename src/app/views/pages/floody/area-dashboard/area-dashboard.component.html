@@ -2,7 +2,7 @@
     <p-tabPanel header="Dashboard" >
         <div class="row">
             <div class="col-lg-4 col-md-4 col-sm-12" *ngFor="let floodItem of floodDashboard">
-                <p-card header="{{floodItem.header}}" subheader="{{floodItem.subheader}}" [style]="{width: '360px'}"
+                <p-card header="{{floodItem.header}}" subheader="{{floodItem.subheader}}"
                     styleClass="p-card-shadow">
                     <ng-template pTemplate="header">
                         <p-carousel [value]="floodItem.images" [autoplayInterval]="3000">
@@ -11,16 +11,23 @@
                     </ng-template>
                         </p-carousel>
                     </ng-template>
-                    <p>
-                        <span *ngFor="let arrAr of floodItem.affAreas;let last =last">
-                            {{arrAr.area}} {{last?".":","}}
-                        </span>
-                    </p>
-                    <ng-template pTemplate="footer">
+                    <div class="card cursor-pointer shadow mb-2" (click)="clickViewMap(floodItem)">
+                        <div class="row m-2">
+                            <div class="col-2 text-center">
+                                <img src="../../../../../assets/images//others/mapIcon.png" style="width: 50px; height: 50px;" />
+                            </div>
+                            <div class="col-10">
+                                <span *ngFor="let arrAr of floodItem.affAreas;let last =last">
+                                    {{arrAr.area}} {{last?".":","}}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <ng-template pTemplate="footer">
                         <div class="text-center">
                             <p-button label="View" icon="pi pi-check" (click)="clickViewMap(floodItem)"></p-button>
                         </div>
-                    </ng-template>
+                    </ng-template> -->
                 </p-card>
             </div>
         </div>
@@ -30,7 +37,7 @@
             <div class="col">
                 <div class="map-container">
                     <div class="map-frame">
-                        <div id="map" style="height: 500px;" *ngIf="activeIndexId==1"></div>
+                        <div id="map" style="height: 500px;"></div>
                     </div>
                 </div>
             </div>

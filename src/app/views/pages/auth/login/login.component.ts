@@ -161,7 +161,7 @@ export class LoginComponent implements OnInit {
             //       this.router.navigate(['/counselling/dashboard']);
             //       // this.router.navigate([this.returnUrl]);
             // }
-                  this.router.navigate(['/floody/area-dashboard']);
+                  this.router.navigate(['/floody/flood-dashboard']);
 
           } else {
             this.alertService.error(data.message);

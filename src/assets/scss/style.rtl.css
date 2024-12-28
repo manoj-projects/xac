@@ -7935,6 +7935,11 @@ full-calendar.fc .fc-button-primary .badge {
   display: inline-flex !important
 }
 
+
+.horizontal-menu .navbar {
+  height: 75px;
+}
+
 .d-none,
 .horizontal-menu .navbar .navbar-content .search-form {
   display: none !important
@@ -14880,6 +14885,10 @@ quill-editor .ql-container {
     transform: none;
     transform: translateZ(0)
   }
+}
+
+.horizontal-menu .navbar .navbar-content .navbar-nav .nav-item {
+  align-items: start;
 }
 
 .dropdownAnimation,
@@ -24472,6 +24481,10 @@ quill-editor .ql-container .ql-tooltip .horizontal-menu .navbar .navbar-content 
 
 .navbar-dark .horizontal-menu .navbar .navbar-nav .nav-item .nav-link {
   color: #7987a1
+}
+
+.horizontal-menu .navbar {
+  height: 75px;
 }
 
 .navbar-dark .horizontal-menu .bottom-navbar {

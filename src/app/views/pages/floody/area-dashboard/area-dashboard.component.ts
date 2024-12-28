@@ -138,14 +138,14 @@ export class AreaDashboardComponent implements OnInit {
       }
     ];
 
-    for(let i=0;i<this.floodDashboard.length;i++) {
-      this.floodDashboard[i].affAreas = this.AllLocations.filter(obj=>{return obj.status==this.floodDashboard[i].floodTy});
+    for (let i = 0; i < this.floodDashboard.length; i++) {
+      this.floodDashboard[i].affAreas = this.AllLocations.filter(obj => { return obj.status == this.floodDashboard[i].floodTy });
     };
     // this.waterLevelHumanChart();
   }
 
   private initMap(): void {
-    this.map?.remove();
+    // this.map?.remove();
     this.map = L.map('map').setView([13.018863956657441, 80.20682196111494], 12); // Chennai center coordinates
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
@@ -156,10 +156,10 @@ export class AreaDashboardComponent implements OnInit {
 
   private addMarkers(): void {
     this.locations.forEach((location) => {
-      let imgUrl = location.status == 2 ? '../../../../../assets/icons/sea-level.png' : '../../../../../assets/icons/surveillance.png';
+      let imgUrl = location.status == 1 ? '../../../../../assets/icons/cctv-camera.png' : '../../../../../assets/icons/house.png';
       const customIcon = L.icon({
         iconUrl: imgUrl, // Replace with your icon path
-        iconSize: [40, 40], // Adjust size as needed
+        iconSize: [37, 37], // Adjust size as needed
         iconAnchor: [16, 32], // Anchor point
         popupAnchor: [0, -32], // Popup anchor point
       });
@@ -362,14 +362,19 @@ export class AreaDashboardComponent implements OnInit {
   }
 
   tabChange(event) {
-    this.activeIndexId = event.index
+    this.activeIndexId = event.index;
     this.locations = this.AllLocations
-    this.initMap();
+    setTimeout(() => {
+      this.initMap();
+    }, 500);
   }
 
   clickViewMap(val) {
-    this.activeIndexId = 1
-    this.locations = val.affAreas
-    this.initMap();
+    this.activeIndexId = 1;
+    this.locations = val.affAreas;
+    debugger
+    setTimeout(() => {
+      this.initMap();
+    }, 500);
   }
 }

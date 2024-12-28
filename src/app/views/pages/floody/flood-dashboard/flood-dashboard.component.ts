@@ -12,6 +12,7 @@ export class FloodDashboardComponent implements OnInit {
   lctn: any[]=[];
   lctnPer: any[]=[
   ];
+  dataFormt: any[]=[];
 
   constructor() {
     this.locations = [
@@ -103,12 +104,15 @@ export class FloodDashboardComponent implements OnInit {
   }
 
   dataFormat() {
+    this.dataFormt = []
     for (let i = 0; i < this.locations.length; i++) {
-      this.lctn.push(this.locations[i].location);
-      this.lctnPer.push(this.locations[i].flood_status_per)
+      this.lctnPer = []
+        for (const property in this.locations[i]) {
+          this.lctnPer.push(this.locations[i][property])
+        }
+        this.dataFormt.push(this.lctnPer)
     }
     this.chartData()
-    console.log(this.lctn);
     
   }
 
@@ -128,24 +132,32 @@ export class FloodDashboardComponent implements OnInit {
         bottom: '3%',
         containLabel: true
       },
+      dataset: [
+        {
+          dimensions: ['cctv_id','flood_flag','flood_status_cm','flood_status_per','id','location'],
+          source: this.dataFormt
+        },
+        {
+          transform: {
+            type: 'sort',
+            config: { dimension: 'flood_status_per', order: 'desc' }
+          }
+        }
+      ],
       xAxis: {
         type: 'category',
-        // data: this.lctn,
-        data: ['Marina Beach', 'Anna Nagar', 'T Nagar', 'Mylapore', 'Adyar', 'Velachery', 'Kodambakkam', 'Egmore', 'Nungambakkam', 'Guindy'],
-        // data: ['asfasdfasdf', 'asfd asfdasfd', 'gasd safdasfd', 'io asfdasfd', 'asdf safasfdasfdsda', 'eer', 'asf', 'asfd', 'gasd', 'io', 'asdf', 'eer'],
+        axisLabel: { interval: 0, rotate: 30 }
       },
-      yAxis: {
-        type: 'value'
+      yAxis: {},
+      series: {
+        type: 'bar',
+        encode: { x: 'location', y: 'flood_status_per' },
+        datasetIndex: 1
       },
-      series: [
-        {
-          name: this.lctnPer,
-          data: this.lctnPer,
-          barWidth: '60%',
-          type: 'bar'
-        }
-      ]
-    })
+      itemStyle: {
+        color: '#ff8811',
+      },
+  })
   }
 
 }

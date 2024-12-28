@@ -29,7 +29,11 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { FileUploadModule } from 'primeng/fileupload';
 import { SidebarModule } from 'primeng/sidebar';
 import { PipeModule } from 'src/app/custompip/pipe.module';
+import {CarouselModule} from 'primeng/carousel';
+
+
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+
 // import { FloodyComponent } from './floody.component';
 import { FloodyService } from './floody.service';
 import { AreaDashboardComponent } from './area-dashboard/area-dashboard.component';
@@ -86,7 +90,8 @@ import { AreaDashboardComponent } from './area-dashboard/area-dashboard.componen
     FileUploadModule,
     SidebarModule,
     PipeModule,
-    ProgressSpinnerModule
+    ProgressSpinnerModule,
+    CarouselModule
   ],
   providers: [
     CommonService,

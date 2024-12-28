@@ -11,11 +11,58 @@ export class AreaDashboardComponent implements OnInit {
   private map;
 
   locations: any = [];
+  minorImages: any = [];
+  modrImages: any = [];
+  majorImages: any = [];
+
+  floodDashboard: any = [];
 
   constructor(
   ) { }
 
   ngOnInit(): void {
+    this.floodDashboard = [
+      {
+        header: "Minor Flooding",
+        subheader: "Affected Areas",
+        images: [
+          "assets/images/flood/minorF1.jpg",
+          "assets/images/flood/minorF2.jpg",
+          "assets/images/flood/minorF3.jpg",
+        ],
+        floodTy: 1,
+        affAreas: []
+      },
+      {
+        header: "Moderate Flooding",
+        subheader: "Affected Areas",
+        images: [
+          "assets/images/flood/modr1.jpg",
+          "assets/images/flood/modr2.jpg",
+          "assets/images/flood/modr3.jpg",
+        ],
+        floodTy: 2,
+        affAreas: []
+      },
+      {
+        header: "Major Flooding",
+        subheader: "Affected Areas",
+        images: [
+          "assets/images/flood/major1.jpg",
+          "assets/images/flood/major2.jpg",
+          "assets/images/flood/major3.jpg",
+        ],
+        floodTy: 3,
+        affAreas: []
+      }
+    ];
+
+    this.modrImages = [
+
+    ];
+    this.majorImages = [
+
+    ];
     this.locations = [
       {
         "area": "Adyar",
@@ -56,8 +103,8 @@ export class AreaDashboardComponent implements OnInit {
         "area": "Kodambakkam",
         "latitude": 13.0527,
         "longitude": 80.2212,
-        "status": 1,
-        "watLvl": 0
+        "status": 2,
+        "watLvl": 30
       },
       {
         "area": "Mylapore",
@@ -70,30 +117,34 @@ export class AreaDashboardComponent implements OnInit {
         "area": "Nungambakkam",
         "latitude": 13.0604,
         "longitude": 80.2406,
-        "status": 2,
+        "status": 3,
         "watLvl": 80
       },
       {
         "area": "T. Nagar (Thyagaraya Nagar)",
         "latitude": 13.0418,
         "longitude": 80.2341,
-        "status": 2,
-        "watLvl": 0
+        "status": 3,
+        "watLvl": 80
       },
       {
         "area": "Velachery",
         "latitude": 12.9815,
         "longitude": 80.2180,
-        "status": 2,
+        "status": 3,
         "watLvl": 200
       }
     ];
-    this.initMap();
-    this.waterLevelHumanChart();
+
+    for(let i=0;i<this.floodDashboard.length;i++) {
+      this.floodDashboard[i].affAreas = this.locations.filter(obj=>{return obj.status==this.floodDashboard[i].floodTy});
+    };
+    debugger
+    // this.waterLevelHumanChart();
   }
 
   private initMap(): void {
-    this.map = L.map('map').setView([13.0827, 80.2707], 12); // Chennai center coordinates
+    this.map = L.map('map').setView([13.018863956657441, 80.20682196111494], 12); // Chennai center coordinates
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
       attribution: '© OpenStreetMap contributors',
@@ -306,5 +357,10 @@ export class AreaDashboardComponent implements OnInit {
       colr = '#ff00008a';
     }
     return colr;
+  }
+
+  tabChange(event) {
+    debugger
+    this.initMap();
   }
 }

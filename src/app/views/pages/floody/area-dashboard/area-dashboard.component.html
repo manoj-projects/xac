@@ -1,24 +1,39 @@
-<div class="row">
-    <div class="col text-center">
-        <h5>Area Dashboard</h5>
-    </div>
-</div>
-
-<!-- <div class="row">
-    <div class="col">
-        <div id="human-chart"  style="width: auto; height:700px;"></div>
-    </div>
-</div>
-<br> -->
-<div class="row">
-
-    
-
-    <div class="col">
-        <div class="map-container">
-            <div class="map-frame">
-                <div id="map" style="height: 500px;"></div>
+<p-tabView (onChange)="tabChange($event)">
+    <p-tabPanel header="Dashboard">
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-12" *ngFor="let floodItem of floodDashboard">
+                <p-card header="{{floodItem.header}}" subheader="{{floodItem.subheader}}" [style]="{width: '360px'}"
+                    styleClass="p-card-shadow">
+                    <ng-template pTemplate="header">
+                        <p-carousel [value]="floodItem.images" [autoplayInterval]="3000">
+                            <ng-template let-floodImg pTemplate="item">
+                        <img alt="Card" src="{{floodImg}}">
+                    </ng-template>
+                        </p-carousel>
+                    </ng-template>
+                    <p>
+                        <span *ngFor="let arrAr of floodItem.affAreas;let last =last">
+                            {{arrAr.area}} {{last?".":","}}
+                        </span>
+                    </p>
+                    <ng-template pTemplate="footer">
+                        <div class="text-center">
+                            <p-button label="View" icon="pi pi-check"></p-button>
+                        </div>
+                    </ng-template>
+                </p-card>
             </div>
         </div>
-    </div>
-</div>
+    </p-tabPanel>
+    <p-tabPanel header="Map View">
+        <div class="row">
+            <div class="col">
+                <div class="map-container">
+                    <div class="map-frame">
+                        <div id="map" style="height: 500px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </p-tabPanel>
+</p-tabView>

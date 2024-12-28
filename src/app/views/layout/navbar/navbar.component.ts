@@ -96,7 +96,7 @@ export class NavbarComponent implements OnInit {
       //   link: '/counselling/dashboard',
       // },
       {
-        label: 'Area Dashboard',
+        label: 'Flood Alert',
         link: '/floody/area-dashboard'
       }
         ]

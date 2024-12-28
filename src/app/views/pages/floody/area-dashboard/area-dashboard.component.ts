@@ -11,11 +11,13 @@ export class AreaDashboardComponent implements OnInit {
   private map;
 
   locations: any = [];
+  AllLocations: any = [];
   minorImages: any = [];
   modrImages: any = [];
   majorImages: any = [];
 
   floodDashboard: any = [];
+  activeIndexId: any;
 
   constructor(
   ) { }
@@ -63,7 +65,7 @@ export class AreaDashboardComponent implements OnInit {
     this.majorImages = [
 
     ];
-    this.locations = [
+    this.AllLocations = [
       {
         "area": "Adyar",
         "latitude": 13.0012,
@@ -137,13 +139,13 @@ export class AreaDashboardComponent implements OnInit {
     ];
 
     for(let i=0;i<this.floodDashboard.length;i++) {
-      this.floodDashboard[i].affAreas = this.locations.filter(obj=>{return obj.status==this.floodDashboard[i].floodTy});
+      this.floodDashboard[i].affAreas = this.AllLocations.filter(obj=>{return obj.status==this.floodDashboard[i].floodTy});
     };
-    debugger
     // this.waterLevelHumanChart();
   }
 
   private initMap(): void {
+    this.map?.remove();
     this.map = L.map('map').setView([13.018863956657441, 80.20682196111494], 12); // Chennai center coordinates
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
@@ -360,7 +362,14 @@ export class AreaDashboardComponent implements OnInit {
   }
 
   tabChange(event) {
-    debugger
+    this.activeIndexId = event.index
+    this.locations = this.AllLocations
+    this.initMap();
+  }
+
+  clickViewMap(val) {
+    this.activeIndexId = 1
+    this.locations = val.affAreas
     this.initMap();
   }
 }

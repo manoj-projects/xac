@@ -1,5 +1,5 @@
-<p-tabView (onChange)="tabChange($event)">
-    <p-tabPanel header="Dashboard">
+<p-tabView (onChange)="tabChange($event)" [activeIndex]="activeIndexId">
+    <p-tabPanel header="Dashboard" >
         <div class="row">
             <div class="col-lg-4 col-md-4 col-sm-12" *ngFor="let floodItem of floodDashboard">
                 <p-card header="{{floodItem.header}}" subheader="{{floodItem.subheader}}" [style]="{width: '360px'}"
@@ -18,7 +18,7 @@
                     </p>
                     <ng-template pTemplate="footer">
                         <div class="text-center">
-                            <p-button label="View" icon="pi pi-check"></p-button>
+                            <p-button label="View" icon="pi pi-check" (click)="clickViewMap(floodItem)"></p-button>
                         </div>
                     </ng-template>
                 </p-card>

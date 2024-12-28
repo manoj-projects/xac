@@ -31,3 +31,11 @@ span.hover:active{
 .image-style{
     width: 50px;
 }
+
+.horizontal-menu .navbar {
+    height: 75px !important;
+  } 
+
+  .horizontal-menu .navbar .navbar-content .navbar-nav .nav-item {
+    align-items: start;
+  }
